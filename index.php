@@ -157,58 +157,13 @@
                 </form>
             </div>
         </div>
-        <div class="container my-5">
-            <div class="row text-center">
-                <h1>Grupo 302-2</h1>
-                <div class="col-6" id="graph1">
-
-                    <figure class="highcharts-figure">
-                        <div id="container"></div>
-                        <p class="highcharts-description">
-                            Esta gráfica de torta muestra el porcentaje de los jugadores
-                            agrupados según su grado de escolaridad.
-                        </p>
-                    </figure>
-                </div>
-                <div class="col-6" id="graph2">
-                    <figure class="highcharts-figure">
-                        <div id="positions-container"></div>
-                        <p class="highcharts-description">
-                            La gráfica muestra el porcentaje de jugadores que juegan en una
-                            posición específica de acuerdo al total de jugadores de la
-                            plantilla.
-                        </p>
-                    </figure>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-6" id="graph3">
-                    <figure class="highcharts-figure">
-                        <div id="container-razas"></div>
-                        <p class="highcharts-description">
-                            Esta gráfica de barras muestra La cantidad de jugadores según su raza.
-                        </p>
-                    </figure>
-                </div>
-                <div class="col-6" id="graph4">
-                    <figure class="highcharts-figure">
-                        <div id="container-lateral"></div>
-                        <p class="highcharts-description">
-                            Esta gráfica de barras muestra el % de diestros y zurdos de la población.
-                        </p>
-                    </figure>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-6" id="graph5">
-                    <div id="chart_div" style="width: 546px; height: 500px;"></div>
-                </div>
-            </div>
-
+        <div class="container-graficos my-5">
         </div>
     </div>
+
+    <script src="./graficos.js">
+
+    </script>
 
     <!-- GRÁFICA ESCOLARIDAD -->
     <script type="text/javascript">
