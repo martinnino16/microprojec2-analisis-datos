@@ -14,6 +14,7 @@
     }
 
     function getHowPlot($configs) {
+        //print_r($configs);
         $how_plot = array();
         foreach ($configs as $config) {
             $var = explode("|", $config[0]);
