@@ -83,6 +83,7 @@
 
     <?php
     require_once('funciones.php');
+    require_once('leerConfiguracion.php');
     //Almacenar archivo cargado
     $file_url = $_FILES['file_upload']['tmp_name'];
 
@@ -101,17 +102,35 @@
             }
             $i++;
         }
-        //Array para los TABS
+        // Validar que sí haya configuraciones parametrizadas
         if (!empty($configs)) {
-            $tabs = array();
-            foreach ($configs as $config) {
-                array_push($tabs, explode("|", $config[6]));
-            }
 
-            $grids = array();
-            foreach ($configs as $config) {
-                array_push($grids, $config[2]);
-            }
+            // Get what and how to plot
+            $what_plot = getWhatPlot($configs);
+            $how_plot = getHowPlot($configs);
+
+            // Get graph names
+            $graph_names = getGraphNames($configs);
+            
+            // Get grids
+            $grids = getGrids($configs);
+
+            // Get rounded corners
+            $rounded_corners = getRoundedCorners($configs);
+
+            // Get graph and table space
+            $graph_table = getGraphTable($configs);
+
+            // Get data resolution
+            $data_resolution = getDataResolution($configs);
+
+            // Get TABS
+            $tabs = getTabs($configs);
+
+            // Get PopUp
+            $popup = getPopup($configs);
+            print_r($popup);
+
         }
     }
 
@@ -153,31 +172,31 @@
     <script type="text/javascript">
         const seriesPie = JSON.parse('<?php echo $series_pie_chart ?>');
     </script>
-    <script type="text/javascript" src="./escolaridad.js"></script>
+    <script type="text/javascript" src="./pieChart.js"></script>
 
     <!-- GRÁFICA POSICIONES DE JUEGO -->
     <script type="text/javascript">
         const seriesbar = JSON.parse('<?php echo $series_bar_chart ?>');
     </script>
-    <script type="text/javascript" src="./posicionesJuego.js"></script>
+    <script type="text/javascript" src="./barChart.js"></script>
 
     <!-- GRÁFICA RAZAS JUGADORES -->
     <script type="text/javascript">
         const seriesHorizontalBar = JSON.parse('<?php echo $series_horizontal_bar_chart ?>');
     </script>
-    <script type="text/javascript" src="./razas.js"></script>
+    <script type="text/javascript" src="./horizontalBarChart.js"></script>
 
     <!-- GRÁFICA LATERALIDAD -->
     <script type="text/javascript">
         const lateralidad = JSON.parse('<?php echo $array_lateralidad  ?>');
     </script>
-    <script type="text/javascript" src="./lateralidad.js"></script>
+    <script type="text/javascript" src="./pieChart.js"></script>
 
     <!-- HISTOGRAMA DE EDADES -->
     <script type="text/javascript">
         const edadesJugadores = <?php echo $series_edades_jugadores ?>;
     </script>
-    <script type="text/javascript" src="./edades.js"></script>
+    <script type="text/javascript" src="./histogramChart.js"></script>
 
     <!-- PRUEBAS -->
     <script type="text/javascript">
