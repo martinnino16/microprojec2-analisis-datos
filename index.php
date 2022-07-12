@@ -17,16 +17,16 @@
     <div class="container my-5">
         <div class="col-12">
             <form action="" method="POST" enctype="multipart/form-data">
-            <div>
-                <div class="flex-center">Cargar Archivo de Configuración</div>
-                <div class="flex-center">
-                    <input type="file" name="file_upload"/>
+                <div>
+                    <div class="flex-center">Cargar Archivo de Configuración</div>
+                    <div class="flex-center">
+                        <input type="file" name="file_upload" />
+                    </div>
                 </div>
-            </div>
-            <div class="div-btn-upl">
-                <button class="button">Cargar</button>
-            </div>
-        </form>
+                <div class="div-btn-upl">
+                    <button class="button">Cargar</button>
+                </div>
+            </form>
         </div>
     </div>
     <div class="container my-5">
@@ -78,34 +78,35 @@
                 <div id="chart_div" style="width: 546px; height: 500px;"></div>
             </div>
         </div>
-        
+
     </div>
+    
 
     <?php
-        require_once('funciones.php');
+    require_once('funciones.php');
 
-        $file_url = $_FILES['file_upload']['tmp_name'];
-        /*$lineas = file($file_url);
+    $file_url = $_FILES['file_upload']['tmp_name'];
+    /*$lineas = file($file_url);
         foreach($lineas as $linea){
             echo $linea;
         }*/
-        
-        //  Consumir API de jugadores
-        $data = file_get_contents("http://evalua.fernandoyepesc.com/04_Modules/11_Evalua/10_WS/ws_evitems.php?&eboxid=89");
-        //  Decodificar la data en formato json
-        $json_data = json_decode($data, true);
 
-        /*foreach($json_data as $object)
+    //  Consumir API de jugadores
+    $data = file_get_contents("http://evalua.fernandoyepesc.com/04_Modules/11_Evalua/10_WS/ws_evitems.php?&eboxid=89");
+    //  Decodificar la data en formato json
+    $json_data = json_decode($data, true);
+
+    /*foreach($json_data as $object)
         {
             print_r($object['id']);
             echo '<br>';
         }*/
 
-        $array_escolaridad = escolaridad_jugadores($json_data);
-        $array_posiciones = posiciones_juego($json_data);
-        $array_razas = show_razas($json_data);
-        $array_lateralidad = show_lateralidad($json_data);
-        $array_edades_jugadores = histogramaEdades($json_data);
+    $array_escolaridad = escolaridad_jugadores($json_data);
+    $array_posiciones = posiciones_juego($json_data);
+    $array_razas = show_razas($json_data);
+    $array_lateralidad = show_lateralidad($json_data);
+    $array_edades_jugadores = histogramaEdades($json_data);
     ?>
 
     <!-- GRÁFICA ESCOLARIDAD -->
@@ -137,7 +138,7 @@
         const edadesJugadores = <?php echo $array_edades_jugadores ?>;
     </script>
     <script type="text/javascript" src="./edades.js"></script>
-    
+
     <!-- Pruebas -->
     <script type="text/javascript">
         var obj = JSON.stringify(<?php echo $data ?>);
