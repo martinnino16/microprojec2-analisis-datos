@@ -46,7 +46,7 @@ Highcharts.chart('positions-container', {
     series: [{
         name: "Positions",
         colorByPoint: true,
-        data: positions
+        data: seriesbar
     }],
     drilldown: {
         breadcrumbs: {

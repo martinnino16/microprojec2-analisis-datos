@@ -36,6 +36,6 @@ Highcharts.chart('container', {
     series: [{
         name: 'Brands',
         colorByPoint: true,
-        data: escolaridad
+        data: seriesPie
     }]
 });
