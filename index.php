@@ -14,74 +14,6 @@
 </head>
 
 <body>
-    <div class="container my-5">
-        <div class="col-12">
-            <form action="" method="POST" enctype="multipart/form-data">
-                <div>
-                    <div class="flex-center">Cargar Archivo de Configuración</div>
-                    <div class="flex-center">
-                        <input type="file" name="file_upload" />
-                    </div>
-                </div>
-                <div class="div-btn-upl">
-                    <button class="button">Cargar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="container my-5">
-        <div class="row text-center">
-            <h1>Grupo 302-2</h1>
-            <div class="col-6" id="graph1">
-
-                <figure class="highcharts-figure">
-                    <div id="container"></div>
-                    <p class="highcharts-description">
-                        Esta gráfica de torta muestra el porcentaje de los jugadores
-                        agrupados según su grado de escolaridad.
-                    </p>
-                </figure>
-            </div>
-            <div class="col-6" id="graph2">
-                <figure class="highcharts-figure">
-                    <div id="positions-container"></div>
-                    <p class="highcharts-description">
-                        La gráfica muestra el porcentaje de jugadores que juegan en una
-                        posición específica de acuerdo al total de jugadores de la
-                        plantilla.
-                    </p>
-                </figure>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-6" id="graph3">
-                <figure class="highcharts-figure">
-                    <div id="container-razas"></div>
-                    <p class="highcharts-description">
-                        Esta gráfica de barras muestra La cantidad de jugadores según su raza.
-                    </p>
-                </figure>
-            </div>
-            <div class="col-6" id="graph4">
-                <figure class="highcharts-figure">
-                    <div id="container-lateral"></div>
-                    <p class="highcharts-description">
-                        Esta gráfica de barras muestra el % de diestros y zurdos de la población.
-                    </p>
-                </figure>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-6" id="graph5">
-                <div id="chart_div" style="width: 546px; height: 500px;"></div>
-            </div>
-        </div>
-
-    </div>
-    
-
     <?php
     require_once('funciones.php');
     require_once('leerConfiguracion.php');
@@ -306,9 +238,6 @@
     <script type="text/javascript">
         const edadesJugadores = <?php echo $series_edades_jugadores ?>;
     </script>
-    <script type="text/javascript" src="./edades.js"></script>
-
-    <!-- Pruebas -->
     <script type="text/javascript" src="./histogramChart.js"></script>
 
     <!-- PRUEBAS -->
