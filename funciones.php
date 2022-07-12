@@ -1,123 +1,85 @@
 <?php
     ## Algoritmo para obtener grado de escolaridad de los jugadores
-    function escolaridad_jugadores($json_data) {
-        $escolaridad = array();
+    function pie_chart($json_data, $index) {
+        $data = array();
         foreach ($json_data as $jugador) {
-            if (!empty($jugador['valores'][5]['value'])) {
-                array_push($escolaridad, rtrim(strtoupper($jugador['valores'][5]['value'])));
+            if (!empty($jugador['valores'][$index]['value'])) {
+                array_push($data, rtrim(strtoupper($jugador['valores'][$index]['value'])));
             }
         }
 
-        $escolaridad = array_count_values($escolaridad);
+        $data = array_count_values($data);
 
+        $series = array();
         $cont = 0;
-        foreach ($escolaridad as $k => $v) {
-            $array_escolaridad[$cont]['name'] = $k;
-            $array_escolaridad[$cont]['y'] = $v;
+        foreach ($data as $k => $v) {
+            $series[$cont]['name'] = $k;
+            $series[$cont]['y'] = $v;
             $cont++;
         }
 
-        return $array_escolaridad = json_encode($array_escolaridad);
+        return $series = json_encode($series);
     }
 
     ## Construir algoritmo para la gráfica de posiciones de juego
-    function posiciones_juego($json_data) {
-        $posiciones = array();
+    function bar_chart($json_data, $index) {
+        $data = array();
         $totalJugadores = 0;
         foreach ($json_data as $jugador) {
-            if (!empty($jugador['valores'][4]['value'])) {
-                array_push($posiciones, rtrim(strtoupper($jugador['valores'][4]['value'])));
+            if (!empty($jugador['valores'][$index]['value'])) {
+                array_push($data, rtrim(strtoupper($jugador['valores'][$index]['value'])));
                 $totalJugadores++;
             }
         }
 
-        $posiciones = array_count_values($posiciones);
+        $data = array_count_values($data);
 
+        $series = array();
         $cont = 0;
-        foreach ($posiciones as $k => $v) {
-            $array_posiciones[$cont]['name'] = $k;
-            $array_posiciones[$cont]['y'] = round($v / $totalJugadores * 100, 2, PHP_ROUND_HALF_UP);
-            $array_posiciones[$cont]['drilldown'] = $k;
+        foreach ($data as $k => $v) {
+            $series[$cont]['name'] = $k;
+            $series[$cont]['y'] = round($v / $totalJugadores * 100, 2, PHP_ROUND_HALF_UP);
+            $series[$cont]['drilldown'] = $k;
             $cont++;
         }
 
-        return $array_posiciones = json_encode($array_posiciones);
+        return $series = json_encode($series);
     }
 
     // Grafica de las razas
-    function show_razas($json_data) {
-        $razas = array();
+    function horizontal_bar_chart($json_data, $index) {
+        $data = array();
         $totalJugadores = 0;
         foreach ($json_data as $jugador) {
-            if (!empty($jugador['valores'][6]['value'])) {
-                array_push($razas, rtrim(strtoupper($jugador['valores'][6]['value'])));
+            if (!empty($jugador['valores'][$index]['value'])) {
+                array_push($data, rtrim(strtoupper($jugador['valores'][$index]['value'])));
                 $totalJugadores++;
             }
         }
 
-        $razas = array_count_values($razas);
+        $data = array_count_values($data);
+        
+        $series = array();
         $cont = 0;
-        foreach ($razas as $key => $value) {
-            $array_razas[$cont]['name'] = $key;
-            $array_razas[$cont]['data'] = round($value / $totalJugadores * 100, 2, PHP_ROUND_HALF_UP);
+        foreach ($data as $key => $value) {
+            $series[$cont]['name'] = $key;
+            $array_valor = array();
+            array_push($array_valor,round($value / $totalJugadores * 100, 2, PHP_ROUND_HALF_UP));
+            $series[$cont]['data'] = $array_valor;
             $cont++;
         }
 
-        return $array_razas = json_encode($array_razas);
-    }
-
-    // Grafica lateralidad
-    function show_lateralidad($json_data) {
-        $lateralidad = array();
-
-        foreach ($json_data as $jugador) {
-            if (!empty($jugador['valores'][6]['value'])) {
-                array_push($lateralidad, rtrim(strtoupper($jugador['valores'][3]['value'])));
-            }
-        }
-
-        $lateralidad = array_count_values($lateralidad);
-
-        $cont = 0;
-        foreach ($lateralidad as $key => $value) {
-            if($key == 'DERECHA') {
-                $array_lateralidad[$cont]['name']['DERECHA'] = $value;
-            } else {
-                $array_lateralidad[$cont]['name'] = $key;
-                $array_lateralidad[$cont]['y'] = $value;
-            }
-            $cont++;
-        }
-
-        return $array_lateralidad = json_encode($array_lateralidad);
+        return $series = json_encode($series);
     }
 
     // Histograma Edades
-    function histogramaEdades($json_data) {
-        $edades = array();
-        $nombresJugadores = array();
-
-        foreach ($json_data as $jugador) {
-            if (!empty($jugador['valores'][2]['value'])) {
-
-                $fechaNacimiento = explode(" ", $jugador['valores'][2]['value']);
-                
-                $edad = substr($fechaNacimiento[1], 1);
-
-                array_push($edades, $edad);
-
-                $nombreCompleto = $jugador['valores'][0]['value'] . " " . $jugador['valores'][1]['value'];
-
-                array_push($nombresJugadores, $nombreCompleto);
-            }
-        }
-
+    function histogram($json_data, $data, $titles) {
         $array_edades_jugadores[0][] = 'Nombre';
         $array_edades_jugadores[0][] = 'Edad';
         
-        for ($x = 0; $x < count($edades); $x++){
-            $array_edades_jugadores[$x+1][] = $nombresJugadores[$x];
-            $array_edades_jugadores[$x+1][] = intval($edades[$x]);
+        for ($x = 0; $x < count($data); $x++){
+            $array_edades_jugadores[$x+1][] = $titles[$x];
+            $array_edades_jugadores[$x+1][] = intval($data[$x]);
         }
 
         return $array_edades_jugadores = json_encode($array_edades_jugadores);

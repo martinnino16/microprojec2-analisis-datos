@@ -38,20 +38,5 @@ Highcharts.chart('container-razas', {
     credits: {
         enabled: false
     },
-    series: [{
-        name: razas[0].name,
-        data: [razas[0].data]
-    },{
-        name: razas[1].name,
-        data: [razas[1].data]
-    },{
-        name: razas[2].name,
-        data: [razas[2].data]
-    },{
-        name: razas[3].name,
-        data: [razas[3].data]
-    },{
-        name: razas[4].name,
-        data: [razas[4].data]
-    }]
+    series: seriesHorizontalBar
 });

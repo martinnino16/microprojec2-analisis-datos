@@ -17,16 +17,16 @@
     <div class="container my-5">
         <div class="col-12">
             <form action="" method="POST" enctype="multipart/form-data">
-            <div>
-                <div class="flex-center">Cargar Archivo de Configuración</div>
-                <div class="flex-center">
-                    <input type="file" name="file_upload"/>
+                <div>
+                    <div class="flex-center">Cargar Archivo de Configuración</div>
+                    <div class="flex-center">
+                        <input type="file" name="file_upload" />
+                    </div>
                 </div>
-            </div>
-            <div class="div-btn-upl">
-                <button class="button">Cargar</button>
-            </div>
-        </form>
+                <div class="div-btn-upl">
+                    <button class="button">Cargar</button>
+                </div>
+            </form>
         </div>
     </div>
     <div class="container my-5">
@@ -78,51 +78,92 @@
                 <div id="chart_div" style="width: 546px; height: 500px;"></div>
             </div>
         </div>
-        
+
     </div>
 
     <?php
-        require_once('funciones.php');
+    require_once('funciones.php');
+    //Almacenar archivo cargado
+    $file_url = $_FILES['file_upload']['tmp_name'];
 
-        $file_url = $_FILES['file_upload']['tmp_name'];
-        /*$lineas = file($file_url);
-        foreach($lineas as $linea){
-            echo $linea;
-        }*/
-        
-        //  Consumir API de jugadores
-        $data = file_get_contents("http://evalua.fernandoyepesc.com/04_Modules/11_Evalua/10_WS/ws_evitems.php?&eboxid=89");
-        //  Decodificar la data en formato json
-        $json_data = json_decode($data, true);
+    //Leer archivo
+    $lineas = file($file_url);
+    //Validar contenido archivo
+    if (!empty($lineas) & count($lineas) > 1) {
+        $i = 0;
+        $cabecera;
+        $configs = array();
+        foreach ($lineas as $linea) {
+            if ($i == 0) {
+                $cabecera = explode(";", $linea);
+            } else {
+                array_push($configs, explode(";", $linea));
+            }
+            $i++;
+        }
+        //Array para los TABS
+        if (!empty($configs)) {
+            $tabs = array();
+            foreach ($configs as $config) {
+                array_push($tabs, explode("|", $config[6]));
+            }
 
-        /*foreach($json_data as $object)
-        {
-            print_r($object['id']);
-            echo '<br>';
-        }*/
+            $grids = array();
+            foreach ($configs as $config) {
+                array_push($grids, $config[2]);
+            }
+        }
+    }
 
-        $array_escolaridad = escolaridad_jugadores($json_data);
-        $array_posiciones = posiciones_juego($json_data);
-        $array_razas = show_razas($json_data);
-        $array_lateralidad = show_lateralidad($json_data);
-        $array_edades_jugadores = histogramaEdades($json_data);
+    //  Consumir API de jugadores
+    $data = file_get_contents("http://evalua.fernandoyepesc.com/04_Modules/11_Evalua/10_WS/ws_evitems.php?&eboxid=89");
+    //  Decodificar la data que viene en formato json
+    $json_data = json_decode($data, true);
+
+    // Dar forma a los datos de acuerdo a la estructura de cada tipo de chart
+    $series_pie_chart = pie_chart($json_data, 5);
+    $series_bar_chart = bar_chart($json_data, 4);
+    $series_horizontal_bar_chart = horizontal_bar_chart($json_data, 6);
+    $array_lateralidad = bar_chart($json_data, 3);
+
+    // Obtener nombres completos de los jugadores
+    $histogram_data = array();
+    $nombresJugadores = array();
+
+    foreach ($json_data as $jugador) {
+        if (!empty($jugador['valores'][2]['value'])) {
+
+            $fechaNacimiento = explode(" ", $jugador['valores'][2]['value']);
+
+            $edad = substr($fechaNacimiento[1], 1);
+
+            array_push($histogram_data, $edad);
+
+            $nombreCompleto = $jugador['valores'][0]['value'] . " " . $jugador['valores'][1]['value'];
+
+            array_push($nombresJugadores, $nombreCompleto);
+        }
+    }
+
+    // Formatear la data para el histograma
+    $series_edades_jugadores = histogram($json_data, $histogram_data, $nombresJugadores);
     ?>
 
     <!-- GRÁFICA ESCOLARIDAD -->
     <script type="text/javascript">
-        const escolaridad = JSON.parse('<?php echo $array_escolaridad ?>');
+        const seriesPie = JSON.parse('<?php echo $series_pie_chart ?>');
     </script>
     <script type="text/javascript" src="./escolaridad.js"></script>
 
     <!-- GRÁFICA POSICIONES DE JUEGO -->
     <script type="text/javascript">
-        const positions = JSON.parse('<?php echo $array_posiciones ?>');
+        const seriesbar = JSON.parse('<?php echo $series_bar_chart ?>');
     </script>
     <script type="text/javascript" src="./posicionesJuego.js"></script>
 
     <!-- GRÁFICA RAZAS JUGADORES -->
     <script type="text/javascript">
-        const razas = JSON.parse('<?php echo $array_razas ?>');
+        const seriesHorizontalBar = JSON.parse('<?php echo $series_horizontal_bar_chart ?>');
     </script>
     <script type="text/javascript" src="./razas.js"></script>
 
@@ -134,11 +175,11 @@
 
     <!-- HISTOGRAMA DE EDADES -->
     <script type="text/javascript">
-        const edadesJugadores = <?php echo $array_edades_jugadores ?>;
+        const edadesJugadores = <?php echo $series_edades_jugadores ?>;
     </script>
     <script type="text/javascript" src="./edades.js"></script>
-    
-    <!-- Pruebas -->
+
+    <!-- PRUEBAS -->
     <script type="text/javascript">
         var obj = JSON.stringify(<?php echo $data ?>);
     </script>
