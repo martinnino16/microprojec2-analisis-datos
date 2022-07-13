@@ -122,41 +122,6 @@
                 </div>
             </nav>
         </div>
-        <!--<nav class="navbar-default navbar-static-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li>
-                        <a href="../index.php"><i class="fa fa-th-large"></i> <span class="nav-label">Inicio</span> <span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            ?php
-                            $j = 0;
-                            foreach ($tabs as $tab) {
-                                print_r($tab);
-                                echo '<li class="active"><a href="#" id=tab' . $j . ' onclick="ShowHide(' . $j . ')" >' . $tab . '</a></li>';
-                                $j++;
-                            }
-                            
-                            <li class="active"><a href="upfile.php">Cargar Archivo</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>-->
-        <div class="container my-5">
-            <div class="col-12">
-                <form action="uploadFile.php" method="POST" enctype="multipart/form-data">
-                    <div>
-                        <div class="flex-center">Cargar Archivo de Configuración</div>
-                        <div class="flex-center">
-                            <input type="file" name="file_upload" accept=".csv" />
-                        </div>
-                    </div>
-                    <div class="div-btn-upl">
-                        <button class="button">Cargar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
         <div class="container my-5">
             <div class="row text-center">
                 <h1>Grupo 302-2</h1>
