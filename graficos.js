@@ -1,5 +1,6 @@
 
-
-
 const container = document.querySelector('.container-graficos');
-console.log(container)
+const col = document.createElement('div');
+
+
+container.append(col)
