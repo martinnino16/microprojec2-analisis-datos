@@ -51,6 +51,7 @@
         foreach ($configs as $config) {
             array_push($grids, $config[2]);
         }
+        
         return $grids;
     }
 
@@ -108,4 +109,3 @@
         }
         return $popup;
     }
-?>

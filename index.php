@@ -22,6 +22,9 @@
     //Almacenar archivo cargado
     $lineas = readFromCsvFile("config-file.csv");
 
+    $graph_names = '';
+
+    
     //Validar contenido archivo
     if (!empty($lineas) & count($lineas) > 1) {
         $i = 0;
@@ -64,7 +67,17 @@
             // Get PopUp
             $popup = getPopup($configs);
         }
+
     }
+
+    $what_plot = json_encode($what_plot);
+    $how_plot = json_encode($how_plot);
+    $grids = json_encode($grids);
+    $graph_names = json_encode($graph_names);
+    $rounded_corners = json_encode($rounded_corners);
+    $graph_table = json_encode($graph_table);
+    $data_resolution = json_encode($data_resolution);
+    $popup = json_encode($popup);
 
     //  Consumir API de jugadores
     $data = file_get_contents("http://evalua.fernandoyepesc.com/04_Modules/11_Evalua/10_WS/ws_evitems.php?&eboxid=89");
@@ -127,9 +140,20 @@
         </div>
     </div>
 
-    <script src="./graficos.js">
-
+    <script type="text/javascript">
+        const what_plot = <?php echo $what_plot ?>;
+        const how_plot = <?php echo $how_plot ?>;
+        const grids = <?php echo $grids ?>;
+        const graph_names = <?php echo $graph_names ?>;
+        const rounded_corners = <?php echo $rounded_corners ?>;
+        const graph_table = <?php echo $graph_table ?>;
+        const data_resolution = <?php echo $data_resolution ?>;
+        const popup = <?php echo $popup ?>;
     </script>
+
+    <script src="./graficos.js"></script>
+
+   
 
     <!-- GRÁFICA ESCOLARIDAD -->
     <script type="text/javascript">
