@@ -135,8 +135,6 @@
                 </div>
             </nav>
         </div>
-
-
         <div class="container-graficos my-5">
 
         </div>
@@ -189,7 +187,8 @@
 
     <!-- PRUEBAS -->
     <script type="text/javascript">
-        var obj = JSON.stringify(<?php echo $data ?>);
+        //var obj = JSON.stringify(<php echo $data ?>);
+        var obj2 = <?php echo json_encode($graph_names) ?>
     </script>
     <script type="text/javascript" src="./pruebas.js"></script>
 </body>
