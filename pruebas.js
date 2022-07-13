@@ -1,9 +1,9 @@
 
 //let series = [];
 
-var objJson = JSON.parse(obj);
+//var objJson = JSON.parse(obj);
 
-//console.log(objJson);
+console.log(obj2);
 /*var x = "?php echo"$chrome"?>";
 
 for(let i=0; i< objJson.length; i++){
