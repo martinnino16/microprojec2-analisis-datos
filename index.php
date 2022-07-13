@@ -22,6 +22,9 @@
     //Almacenar archivo cargado
     $lineas = readFromCsvFile("config-file.csv");
 
+    $graph_names = '';
+
+    
     //Validar contenido archivo
     if (!empty($lineas) & count($lineas) > 1) {
         $i = 0;
@@ -64,7 +67,17 @@
             // Get PopUp
             $popup = getPopup($configs);
         }
+
     }
+
+    $what_plot = json_encode($what_plot);
+    $how_plot = json_encode($how_plot);
+    $grids = json_encode($grids);
+    $graph_names = json_encode($graph_names);
+    $rounded_corners = json_encode($rounded_corners);
+    $graph_table = json_encode($graph_table);
+    $data_resolution = json_encode($data_resolution);
+    $popup = json_encode($popup);
 
     //  Consumir API de jugadores
     $data = file_get_contents("http://evalua.fernandoyepesc.com/04_Modules/11_Evalua/10_WS/ws_evitems.php?&eboxid=89");
@@ -123,50 +136,26 @@
             </nav>
         </div>
 
-        <!--<nav class="navbar-default navbar-static-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li>
-                        <a href="../index.php"><i class="fa fa-th-large"></i> <span class="nav-label">Inicio</span> <span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            ?php
-                            $j = 0;
-                            foreach ($tabs as $tab) {
-                                print_r($tab);
-                                echo '<li class="active"><a href="#" id=tab' . $j . ' onclick="ShowHide(' . $j . ')" >' . $tab . '</a></li>';
-                                $j++;
-                            }
-                            
-                            <li class="active"><a href="upfile.php">Cargar Archivo</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>-->
-        <div class="container my-5">
-            <div class="col-12">
-                <form action="uploadFile.php" method="POST" enctype="multipart/form-data">
-                    <div>
-                        <div class="flex-center">Cargar Archivo de Configuración</div>
-                        <div class="flex-center">
-                            <input type="file" name="file_upload" accept=".csv" />
-                        </div>
-                    </div>
-                    <div class="div-btn-upl">
-                        <button class="button">Cargar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+
         <div class="container-graficos my-5">
 
         </div>
     </div>
 
-
-    <script src="./graficos.js">
-
+    <script type="text/javascript">
+        const what_plot = <?php echo $what_plot ?>;
+        const how_plot = <?php echo $how_plot ?>;
+        const grids = <?php echo $grids ?>;
+        const graph_names = <?php echo $graph_names ?>;
+        const rounded_corners = <?php echo $rounded_corners ?>;
+        const graph_table = <?php echo $graph_table ?>;
+        const data_resolution = <?php echo $data_resolution ?>;
+        const popup = <?php echo $popup ?>;
     </script>
+
+    <script src="./graficos.js"></script>
+
+   
 
     <!-- GRÁFICA ESCOLARIDAD -->
     <script type="text/javascript">

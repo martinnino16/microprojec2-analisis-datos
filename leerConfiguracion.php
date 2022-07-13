@@ -30,14 +30,11 @@
 
     function getGraphNames($configs) {
         $graph_names = array();
+
         foreach ($configs as $config) {
             $var = explode("|", $config[1]);
-            $titles = array();
-            foreach ($var as $v){
-                $var2 = explode(",", $v);
-                array_push($titles, $var2[0]);
-            }
-            array_push($graph_names, $titles);
+            $graph_names = $var;
+
         }
         return $graph_names;
     }
@@ -47,6 +44,7 @@
         foreach ($configs as $config) {
             array_push($grids, $config[2]);
         }
+        
         return $grids;
     }
 
@@ -104,4 +102,3 @@
         }
         return $popup;
     }
-?>
