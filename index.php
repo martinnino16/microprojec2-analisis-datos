@@ -18,90 +18,7 @@
     <?php
     require_once('funciones.php');
     require_once('leerConfiguracion.php');
-
-    echo '<br><br>';
-    //Almacenar archivo cargado
-    $lineas = readFromCsvFile("config-file.csv");
-
-    $graph_names = '';
-
-
-    //Validar contenido archivo
-    if (!empty($lineas) & count($lineas) > 1) {
-        $i = 0;
-        $cabecera;
-        $configs = array();
-        foreach ($lineas as $linea) {
-
-            if ($i == 0) {
-                $cabecera = explode(";", $linea);
-            } else {
-                array_push($configs, explode(";", $linea));
-            }
-            $i++;
-        }
-        // Validar que sí haya configuraciones parametrizadas
-        if (!empty($configs)) {
-
-            // Get what and how to plot
-            $what_plot = getWhatPlot($configs);
-            $how_plot = getHowPlot($configs);
-
-            // Get graph names
-            $graph_names = getGraphNames($configs);
-
-            // Get grids
-            $grids = getGrids($configs);
-
-            // Get rounded corners
-            $rounded_corners = getRoundedCorners($configs);
-
-            // Get graph and table space
-            $graph_table = getGraphTable($configs);
-
-            // Get data resolution
-            $data_resolution = getDataResolution($configs);
-
-            // Get TABS
-            $tabs = getTabs($configs);
-
-            // Get PopUp
-            $popup = getPopup($configs);
-        }
-    }
-
-    //  Consumir API de jugadores
-    $data = file_get_contents("http://evalua.fernandoyepesc.com/04_Modules/11_Evalua/10_WS/ws_evitems.php?&eboxid=89");
-    //  Decodificar la data que viene en formato json
-    $json_data = json_decode($data, true);
-
-    // Dar forma a los datos de acuerdo a la estructura de cada tipo de chart
-    $series_pie_chart = pie_chart($json_data, 5);
-    $series_bar_chart = bar_chart($json_data, 4);
-    $series_horizontal_bar_chart = horizontal_bar_chart($json_data, 6);
-    $array_lateralidad = bar_chart($json_data, 3);
-
-    // Obtener nombres completos de los jugadores
-    $histogram_data = array();
-    $nombresJugadores = array();
-
-    foreach ($json_data as $jugador) {
-        if (!empty($jugador['valores'][2]['value'])) {
-
-            $fechaNacimiento = explode(" ", $jugador['valores'][2]['value']);
-
-            $edad = substr($fechaNacimiento[1], 1);
-
-            array_push($histogram_data, $edad);
-
-            $nombreCompleto = $jugador['valores'][0]['value'] . " " . $jugador['valores'][1]['value'];
-
-            array_push($nombresJugadores, $nombreCompleto);
-        }
-    }
-
-    // Formatear la data para el histograma
-    $series_edades_jugadores = histogram($json_data, $histogram_data, $nombresJugadores);
+    require_once('validarArchivo.php');
     ?>
 
     <div id="wrapper">
@@ -134,40 +51,40 @@
                 }
                 ?>
             </div>
-            <div class="tab-content" id="v-pills-tabContent">
-            <?php
+            <div class="tab-content" style="min-width: 1200px !important;" id="v-pills-tabContent">
+                <?php
                 $k = 0;
                 foreach ($tabs as $tab) {
                     if ($k == 0) {
                         echo '<div class="tab-pane fade show active" 
                         id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
                         role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
-                            <div class="container d-flex">';
-                                foreach ($grids as $grid) {
-                                    $arrayGrid = explode('x', $grid);
-                                    $row = $arrayGrid[0];
-                                    $col = $arrayGrid[1];
-                                    for ($i=0; $i < $row; $i++) { 
-                                        echo '<div class="row">';
-                                            for ($j=0; $j < $col; $j++) { 
-                                                echo '<div class="col-'. 12/$col .'">
+                            <div class="container">';
+                        foreach ($grids as $grid) {
+                            $arrayGrid = explode('x', $grid);
+                            $row = $arrayGrid[0];
+                            $col = $arrayGrid[1];
+                            for ($i = 0; $i < $row; $i++) {
+                                echo '<div class="row">';
+                                for ($j = 0; $j < $col; $j++) {
+                                    echo '<div class="col-' . 12 / $col . '">
                                                         <figure class="highcharts-figure">
-                                                            <div id="niko"></div>
+                                                            <div id="container' . $j . '"></div>
                                                         </figure>
 
                                                     </div>';
-                                            }
-
-                                        echo '</div>';
-                                    } 
                                 }
-                            
-                            echo '</div>';
+
+                                echo '</div>';
+                            }
+                        }
+
+                        echo '</div>';
                         echo '</div>';
                     } else {
                         echo '<div class="tab-pane fade" id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
                         role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
-                        Lógica Graficas 2
+                        Lógica Graficas Tab '.$tab.'
                         </div>';
                     }
                     $k++;
@@ -177,46 +94,44 @@
         </div>
     </div>
 
-
+    <!-- IMPORT SCRIPTS -->
+    <script type="text/javascript" src="./barChart.js"></script>
+    <script type="text/javascript" src="./pieChart.js"></script>
 
     <!-- GRÁFICA TORTA -->
     <script type="text/javascript">
-        const seriesPie = JSON.parse('<?php echo $series_pie_chart ?>');
+        loadPieChart('container1', 'Gráfica de Torta', <?php echo $series_pie_chart ?>);
     </script>
     <script src="./pieChart.js"></script>
-    
 
-    <!-- GRÁFICA BARRAS 
+
+    <!-- GRÁFICA BARRAS -->
     <script type="text/javascript">
-        const seriesbar = JSON.parse('<php echo $series_bar_chart ?>');
-    </script>-->
-    <script type="text/javascript" src="./barChart.js"></script>
-    <script type="text/javascript">
-        loadPieChart('positions-container','Posiciones',<?php echo $series_pie_chart?>);
+        loadBarChart('container0', 'Gráfica de Barras', <?php echo $series_bar_chart ?>);
     </script>
 
     <!-- GRÁFICA BARRAS HORIZONTAL -->
     <script type="text/javascript">
         const seriesHorizontalBar = JSON.parse('<?php echo $series_horizontal_bar_chart ?>');
     </script>
-   
+
 
     <!-- GRÁFICA BARRAS -->
     <script type="text/javascript">
         const lateralidad = JSON.parse('<?php echo $array_lateralidad  ?>');
     </script>
-   
+
 
     <!-- HISTOGRAMA -->
     <script type="text/javascript">
         const edadesJugadores = <?php echo $series_edades_jugadores ?>;
     </script>
-    
+
 
     <!-- PRUEBAS -->
     <!-- <script type="text/javascript">
         //var obj = JSON.stringify(<php echo $data ?>);
-        var obj2 = <?php echo json_encode($graph_names) ?>
+        var obj2 = <php echo json_encode($graph_names) ?>
     </script> -->
 
     <!-- <script type="module" src="graficos.js">

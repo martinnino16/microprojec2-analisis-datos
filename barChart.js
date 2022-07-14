@@ -1,6 +1,5 @@
-
-// Create the chart for positions
-function loadPieChart(idContainer, title, series) {
+// Bar Chart
+function loadBarChart(idContainer, title, series) {
     console.log("Llegué");
     Highcharts.chart(idContainer, {
         chart: {

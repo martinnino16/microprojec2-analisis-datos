@@ -18,7 +18,6 @@
     require_once('funciones.php');
     require_once('leerConfiguracion.php');
 
-    echo '<br><br>';
     //Almacenar archivo cargado
     $lineas = readFromCsvFile("config-file.csv");
 
@@ -106,24 +105,11 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <?php
-                        $j = 0;
-                        foreach ($tabs as $tab) {
-                            echo '<li class="nav-item"><a class="nav-link" href="#">' . $tab . '</a></li>';
-                            $j++;
-                        }
-                        ?>
-                        <li class="nav-item"><a class="nav-link" href="#">Cargar Archivo</a></li>
-                    </ul>
-                </div>
             </nav>
         </div>
         <div class="container my-5">
             <div class="col-12">
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="uploadFile.php" method="POST" enctype="multipart/form-data">
                     <div>
                         <div class="flex-center">Cargar Archivo de Configuración</div>
                         <div class="flex-center">
@@ -131,7 +117,7 @@
                         </div>
                     </div>
                     <div class="div-btn-upl">
-                        <button class="button">Cargar</button>
+                        <button class="button" >Cargar</button>
                     </div>
                 </form>
             </div>
