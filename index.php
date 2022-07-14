@@ -218,11 +218,14 @@
     </script>
     <script type="text/javascript" src="./pieChart.js"></script>
 
-    <!-- GRÁFICA BARRAS -->
+    <!-- GRÁFICA BARRAS 
     <script type="text/javascript">
-        const seriesbar = JSON.parse('<?php echo $series_bar_chart ?>');
-    </script>
+        const seriesbar = JSON.parse('<php echo $series_bar_chart ?>');
+    </script>-->
     <script type="text/javascript" src="./barChart.js"></script>
+    <script type="text/javascript">
+        loadPieChart('positions-container','Posiciones',<?php echo $series_pie_chart?>);
+    </script>
 
     <!-- GRÁFICA BARRAS HORIZONTAL -->
     <script type="text/javascript">
