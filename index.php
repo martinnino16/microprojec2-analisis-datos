@@ -70,15 +70,6 @@
         }
     }
 
-    $what_plot = json_encode($what_plot);
-    $how_plot = json_encode($how_plot);
-    $grids = json_encode($grids);
-    $graph_names = json_encode($graph_names);
-    $rounded_corners = json_encode($rounded_corners);
-    $graph_table = json_encode($graph_table);
-    $data_resolution = json_encode($data_resolution);
-    $popup = json_encode($popup);
-
     //  Consumir API de jugadores
     $data = file_get_contents("http://evalua.fernandoyepesc.com/04_Modules/11_Evalua/10_WS/ws_evitems.php?&eboxid=89");
     //  Decodificar la data que viene en formato json
@@ -123,63 +114,101 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <?php
-                        $j = 0;
-                        foreach ($tabs as $tab) {
-                            echo '<li class="nav-item"><a class="nav-link" href="#">' . $tab . '</a></li>';
-                            $j++;
-                        }
-                        ?>
                         <li class="nav-item"><a class="nav-link" href="cargarArchivo.php">Cargar Archivo</a></li>
                     </ul>
                 </div>
             </nav>
         </div>
-        <div class="container-graficos my-5">
+        <br><br>
+        <div class="d-flex align-items-start">
+            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <?php
+                $k = 0;
+                foreach ($tabs as $tab) {
+                    if ($k == 0) {
+                        echo '<button class="nav-link active" id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" aria-selected="true">' . $tab . '</button>';
+                    } else {
+                        echo '<button class="nav-link" id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" aria-selected="true">' . $tab . '</button>';
+                    }
+                    $k++;
+                }
+                ?>
+            </div>
+            <div class="tab-content" id="v-pills-tabContent">
+            <?php
+                $k = 0;
+                foreach ($tabs as $tab) {
+                    if ($k == 0) {
+                        echo '<div class="tab-pane fade show active" 
+                        id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                        role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
+                            <div class="container d-flex">';
+                                foreach ($grids as $grid) {
+                                    $arrayGrid = explode('x', $grid);
+                                    $row = $arrayGrid[0];
+                                    $col = $arrayGrid[1];
+                                    for ($i=0; $i < $row; $i++) { 
+                                        echo '<div class="row">';
+                                            for ($j=0; $j < $col; $j++) { 
+                                                echo '<div class="col-'. 12/$col .'">
+                                                        <figure class="highcharts-figure">
+                                                            <div id="niko"></div>
+                                                        </figure>
 
+                                                    </div>';
+                                            }
 
-
+                                        echo '</div>';
+                                    } 
+                                }
+                            
+                            echo '</div>';
+                        echo '</div>';
+                    } else {
+                        echo '<div class="tab-pane fade" id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                        role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
+                        Lógica Graficas 2
+                        </div>';
+                    }
+                    $k++;
+                }
+                ?>
+            </div>
         </div>
     </div>
 
-    <script type="text/javascript">
-        const what_plot = <?php echo $what_plot ?>;
-        const how_plot = <?php echo $how_plot ?>;
-        const grids = <?php echo $grids ?>;
-        const graph_names = <?php echo $graph_names ?>;
-        const rounded_corners = <?php echo $rounded_corners ?>;
-        const graph_table = <?php echo $graph_table ?>;
-        const data_resolution = <?php echo $data_resolution ?>;
-        const popup = <?php echo $popup ?>;
-    </script>
 
 
-    <!-- GRÁFICA ESCOLARIDAD -->
+    <!-- GRÁFICA TORTA -->
     <script type="text/javascript">
         const seriesPie = JSON.parse('<?php echo $series_pie_chart ?>');
-    </script> -->
+    </script>
+    <script src="./pieChart.js"></script>
+    
 
+    <!-- GRÁFICA BARRAS -->
+    <script type="text/javascript">
+        const seriesbar = JSON.parse('<?php echo $series_bar_chart ?>');
+    </script>
+    <script type="text/javascript" src="./barChart.js"></script>
 
-    <!-- GRÁFICA RAZAS JUGADORES -->
+    <!-- GRÁFICA BARRAS HORIZONTAL -->
     <script type="text/javascript">
         const seriesHorizontalBar = JSON.parse('<?php echo $series_horizontal_bar_chart ?>');
     </script>
    
 
-    <!-- GRÁFICA LATERALIDAD -->
+    <!-- GRÁFICA BARRAS -->
     <script type="text/javascript">
         const lateralidad = JSON.parse('<?php echo $array_lateralidad  ?>');
     </script>
    
 
-    <!-- HISTOGRAMA DE EDADES -->
+    <!-- HISTOGRAMA -->
     <script type="text/javascript">
         const edadesJugadores = <?php echo $series_edades_jugadores ?>;
     </script>
     
-    <script type="text/javascript">
-        const seriesbar = JSON.parse('<?php echo $series_bar_chart ?>');
-    </script>
 
     <!-- PRUEBAS -->
     <!-- <script type="text/javascript">
@@ -191,7 +220,6 @@
 
     </script> -->
     <!-- <script src="./graficos.js"></script> -->
-    <script src="./graficos.js"></script>
 </body>
 
 </html>
