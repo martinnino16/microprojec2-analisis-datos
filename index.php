@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -17,14 +18,14 @@
     <?php
     require_once('funciones.php');
     require_once('leerConfiguracion.php');
-  
+
     echo '<br><br>';
     //Almacenar archivo cargado
     $lineas = readFromCsvFile("config-file.csv");
 
     $graph_names = '';
 
-    
+
     //Validar contenido archivo
     if (!empty($lineas) & count($lineas) > 1) {
         $i = 0;
@@ -67,7 +68,6 @@
             // Get PopUp
             $popup = getPopup($configs);
         }
-
     }
 
     $what_plot = json_encode($what_plot);
@@ -137,6 +137,8 @@
         </div>
         <div class="container-graficos my-5">
 
+
+
         </div>
     </div>
 
@@ -151,46 +153,45 @@
         const popup = <?php echo $popup ?>;
     </script>
 
-    <script src="./graficos.js"></script>
-
-   
 
     <!-- GRÁFICA ESCOLARIDAD -->
     <script type="text/javascript">
         const seriesPie = JSON.parse('<?php echo $series_pie_chart ?>');
-    </script>
-    <script type="text/javascript" src="./pieChart.js"></script>
+    </script> -->
 
-    <!-- GRÁFICA POSICIONES DE JUEGO -->
-    <script type="text/javascript">
-        const seriesbar = JSON.parse('<?php echo $series_bar_chart ?>');
-    </script>
-    <script type="text/javascript" src="./barChart.js"></script>
 
     <!-- GRÁFICA RAZAS JUGADORES -->
     <script type="text/javascript">
         const seriesHorizontalBar = JSON.parse('<?php echo $series_horizontal_bar_chart ?>');
     </script>
-    <script type="text/javascript" src="./horizontalBarChart.js"></script>
+   
 
     <!-- GRÁFICA LATERALIDAD -->
     <script type="text/javascript">
         const lateralidad = JSON.parse('<?php echo $array_lateralidad  ?>');
     </script>
-    <script type="text/javascript" src="./pieChart.js"></script>
+   
 
     <!-- HISTOGRAMA DE EDADES -->
     <script type="text/javascript">
         const edadesJugadores = <?php echo $series_edades_jugadores ?>;
     </script>
-    <script type="text/javascript" src="./histogramChart.js"></script>
+    
+    <script type="text/javascript">
+        const seriesbar = JSON.parse('<?php echo $series_bar_chart ?>');
+    </script>
 
     <!-- PRUEBAS -->
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         //var obj = JSON.stringify(<php echo $data ?>);
         var obj2 = <?php echo json_encode($graph_names) ?>
-    </script>
-    <script type="text/javascript" src="./pruebas.js"></script>
+    </script> -->
+
+    <!-- <script type="module" src="graficos.js">
+
+    </script> -->
+    <!-- <script src="./graficos.js"></script> -->
+    <script src="./graficos.js"></script>
 </body>
 
 </html>
