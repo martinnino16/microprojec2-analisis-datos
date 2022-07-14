@@ -17,14 +17,13 @@
     <?php
     require_once('funciones.php');
     require_once('leerConfiguracion.php');
-  
-    echo '<br><br>';
+
     //Almacenar archivo cargado
     $lineas = readFromCsvFile("config-file.csv");
 
     $graph_names = '';
 
-    
+
     //Validar contenido archivo
     if (!empty($lineas) & count($lineas) > 1) {
         $i = 0;
@@ -67,7 +66,6 @@
             // Get PopUp
             $popup = getPopup($configs);
         }
-
     }
 
     $what_plot = json_encode($what_plot);
@@ -123,20 +121,81 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <?php
-                        $j = 0;
-                        foreach ($tabs as $tab) {
-                            echo '<li class="nav-item"><a class="nav-link" href="#">' . $tab . '</a></li>';
-                            $j++;
-                        }
-                        ?>
                         <li class="nav-item"><a class="nav-link" href="cargarArchivo.php">Cargar Archivo</a></li>
                     </ul>
                 </div>
             </nav>
         </div>
-        <div class="container-graficos my-5">
-
+        <br><br>
+        <div class="d-flex align-items-start">
+            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <?php
+                $k = 0;
+                foreach ($tabs as $tab) {
+                    if ($k == 0) {
+                        echo '<button class="nav-link active" id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" aria-selected="true">' . $tab . '</button>';
+                    } else {
+                        echo '<button class="nav-link" id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" aria-selected="true">' . $tab . '</button>';
+                    }
+                    $k++;
+                }
+                ?>
+            </div>
+            <div class="tab-content" id="v-pills-tabContent">
+            <?php
+                $k = 0;
+                foreach ($tabs as $tab) {
+                    if ($k == 0) {
+                        echo '<div class="tab-pane fade show active" 
+                        id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                        role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <figure class="highcharts-figure">
+                                        <div id="container"></div>
+                                        <p class="highcharts-description">
+                                            Pie charts are very popular for showing a compact overview of a
+                                            composition or comparison. While they can be harder to read than
+                                            column charts, they remain a popular choice for small datasets.
+                                        </p>
+                                        </figure>
+                                    </div>
+                                    <div class="col-6">
+                                        <figure class="highcharts-figure">
+                                        <div id="positions-container"></div>
+                                        <p class="highcharts-description">
+                                            Pie charts are very popular for showing a compact overview of a
+                                            composition or comparison. While they can be harder to read than
+                                            column charts, they remain a popular choice for small datasets.
+                                        </p>
+                                        </figure>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <figure class="highcharts-figure">
+                                        <div id="container-razas"></div>
+                                        <p class="highcharts-description">
+                                            Pie charts are very popular for showing a compact overview of a
+                                            composition or comparison. While they can be harder to read than
+                                            column charts, they remain a popular choice for small datasets.
+                                        </p>
+                                        </figure>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+                    } else {
+                        echo '<div class="tab-pane fade" id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                        role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
+                        Lógica Graficas 2
+                        </div>';
+                    }
+                    $k++;
+                }
+                ?>
+            </div>
         </div>
     </div>
 
@@ -153,33 +212,31 @@
 
     <script src="./graficos.js"></script>
 
-   
-
-    <!-- GRÁFICA ESCOLARIDAD -->
+    <!-- GRÁFICA TORTA -->
     <script type="text/javascript">
         const seriesPie = JSON.parse('<?php echo $series_pie_chart ?>');
     </script>
     <script type="text/javascript" src="./pieChart.js"></script>
 
-    <!-- GRÁFICA POSICIONES DE JUEGO -->
+    <!-- GRÁFICA BARRAS -->
     <script type="text/javascript">
         const seriesbar = JSON.parse('<?php echo $series_bar_chart ?>');
     </script>
     <script type="text/javascript" src="./barChart.js"></script>
 
-    <!-- GRÁFICA RAZAS JUGADORES -->
+    <!-- GRÁFICA BARRAS HORIZONTAL -->
     <script type="text/javascript">
         const seriesHorizontalBar = JSON.parse('<?php echo $series_horizontal_bar_chart ?>');
     </script>
     <script type="text/javascript" src="./horizontalBarChart.js"></script>
 
-    <!-- GRÁFICA LATERALIDAD -->
+    <!-- GRÁFICA BARRAS -->
     <script type="text/javascript">
         const lateralidad = JSON.parse('<?php echo $array_lateralidad  ?>');
     </script>
     <script type="text/javascript" src="./pieChart.js"></script>
 
-    <!-- HISTOGRAMA DE EDADES -->
+    <!-- HISTOGRAMA -->
     <script type="text/javascript">
         const edadesJugadores = <?php echo $series_edades_jugadores ?>;
     </script>
