@@ -1,6 +1,6 @@
 
 // Create the chart for positions
-Highcharts.chart('positions-container', {
+const chartColum = Highcharts.chart('positions-container', {
     chart: {
         type: 'column'
     },
@@ -57,3 +57,5 @@ Highcharts.chart('positions-container', {
         series: []
     }
 });
+
+console.log(chartColum);

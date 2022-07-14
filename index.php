@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -18,6 +19,7 @@
     require_once('funciones.php');
     require_once('leerConfiguracion.php');
 
+    echo '<br><br>';
     //Almacenar archivo cargado
     $lineas = readFromCsvFile("config-file.csv");
 
@@ -67,15 +69,6 @@
             $popup = getPopup($configs);
         }
     }
-
-    $what_plot = json_encode($what_plot);
-    $how_plot = json_encode($how_plot);
-    $grids = json_encode($grids);
-    $graph_names = json_encode($graph_names);
-    $rounded_corners = json_encode($rounded_corners);
-    $graph_table = json_encode($graph_table);
-    $data_resolution = json_encode($data_resolution);
-    $popup = json_encode($popup);
 
     //  Consumir API de jugadores
     $data = file_get_contents("http://evalua.fernandoyepesc.com/04_Modules/11_Evalua/10_WS/ws_evitems.php?&eboxid=89");
@@ -149,43 +142,28 @@
                         echo '<div class="tab-pane fade show active" 
                         id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
                         role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <figure class="highcharts-figure">
-                                        <div id="container"></div>
-                                        <p class="highcharts-description">
-                                            Pie charts are very popular for showing a compact overview of a
-                                            composition or comparison. While they can be harder to read than
-                                            column charts, they remain a popular choice for small datasets.
-                                        </p>
-                                        </figure>
-                                    </div>
-                                    <div class="col-6">
-                                        <figure class="highcharts-figure">
-                                        <div id="positions-container"></div>
-                                        <p class="highcharts-description">
-                                            Pie charts are very popular for showing a compact overview of a
-                                            composition or comparison. While they can be harder to read than
-                                            column charts, they remain a popular choice for small datasets.
-                                        </p>
-                                        </figure>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <figure class="highcharts-figure">
-                                        <div id="container-razas"></div>
-                                        <p class="highcharts-description">
-                                            Pie charts are very popular for showing a compact overview of a
-                                            composition or comparison. While they can be harder to read than
-                                            column charts, they remain a popular choice for small datasets.
-                                        </p>
-                                        </figure>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';
+                            <div class="container d-flex">';
+                                foreach ($grids as $grid) {
+                                    $arrayGrid = explode('x', $grid);
+                                    $row = $arrayGrid[0];
+                                    $col = $arrayGrid[1];
+                                    for ($i=0; $i < $row; $i++) { 
+                                        echo '<div class="row">';
+                                            for ($j=0; $j < $col; $j++) { 
+                                                echo '<div class="col-'. 12/$col .'">
+                                                        <figure class="highcharts-figure">
+                                                            <div id="niko"></div>
+                                                        </figure>
+
+                                                    </div>';
+                                            }
+
+                                        echo '</div>';
+                                    } 
+                                }
+                            
+                            echo '</div>';
+                        echo '</div>';
                     } else {
                         echo '<div class="tab-pane fade" id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
                         role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
@@ -199,24 +177,14 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-        const what_plot = <?php echo $what_plot ?>;
-        const how_plot = <?php echo $how_plot ?>;
-        const grids = <?php echo $grids ?>;
-        const graph_names = <?php echo $graph_names ?>;
-        const rounded_corners = <?php echo $rounded_corners ?>;
-        const graph_table = <?php echo $graph_table ?>;
-        const data_resolution = <?php echo $data_resolution ?>;
-        const popup = <?php echo $popup ?>;
-    </script>
 
-    <script src="./graficos.js"></script>
 
     <!-- GRÁFICA TORTA -->
     <script type="text/javascript">
         const seriesPie = JSON.parse('<?php echo $series_pie_chart ?>');
     </script>
-    <script type="text/javascript" src="./pieChart.js"></script>
+    <script src="./pieChart.js"></script>
+    
 
     <!-- GRÁFICA BARRAS -->
     <script type="text/javascript">
@@ -228,26 +196,30 @@
     <script type="text/javascript">
         const seriesHorizontalBar = JSON.parse('<?php echo $series_horizontal_bar_chart ?>');
     </script>
-    <script type="text/javascript" src="./horizontalBarChart.js"></script>
+   
 
     <!-- GRÁFICA BARRAS -->
     <script type="text/javascript">
         const lateralidad = JSON.parse('<?php echo $array_lateralidad  ?>');
     </script>
-    <script type="text/javascript" src="./pieChart.js"></script>
+   
 
     <!-- HISTOGRAMA -->
     <script type="text/javascript">
         const edadesJugadores = <?php echo $series_edades_jugadores ?>;
     </script>
-    <script type="text/javascript" src="./histogramChart.js"></script>
+    
 
     <!-- PRUEBAS -->
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         //var obj = JSON.stringify(<php echo $data ?>);
         var obj2 = <?php echo json_encode($graph_names) ?>
-    </script>
-    <script type="text/javascript" src="./pruebas.js"></script>
+    </script> -->
+
+    <!-- <script type="module" src="graficos.js">
+
+    </script> -->
+    <!-- <script src="./graficos.js"></script> -->
 </body>
 
 </html>
