@@ -1,6 +1,6 @@
 // Bar Chart
 function loadBarChart(idContainer, title, series) {
-    console.log("Llegué");
+    
     Highcharts.chart(idContainer, {
         chart: {
             type: 'column'
@@ -23,7 +23,7 @@ function loadBarChart(idContainer, title, series) {
         },
         yAxis: {
             title: {
-                text: 'Total percent game position'
+                text: 'Total percent'
             }
         },
         legend: {
@@ -45,7 +45,7 @@ function loadBarChart(idContainer, title, series) {
         },
 
         series: [{
-            name: "Positions",
+            name: "Resumen",
             colorByPoint: true,
             data: series
         }],

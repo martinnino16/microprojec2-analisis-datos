@@ -2,9 +2,6 @@
 //Almacenar archivo cargado
 $lineas = readFromCsvFile("config-file.csv");
 
-$graph_names = '';
-
-
 //Validar contenido archivo
 if (!empty($lineas) & count($lineas) > 1) {
     $i = 0;
@@ -23,29 +20,29 @@ if (!empty($lineas) & count($lineas) > 1) {
     if (!empty($configs)) {
 
         // Get what and how to plot
-        $what_plot = getWhatPlot($configs);
-        $how_plot = getHowPlot($configs);
+        $what_plot = getArrayWhatPlot($configs);
+        $how_plot = getArrayHowPlot($configs);
 
         // Get graph names
-        $graph_names = getGraphNames($configs);
+        $graph_names = getArrayGraphNames($configs);
 
         // Get grids
-        $grids = getGrids($configs);
+        $grids = getArrayGrids($configs);
 
         // Get rounded corners
-        $rounded_corners = getRoundedCorners($configs);
+        $rounded_corners = getArrayRoundedCorners($configs);
 
         // Get graph and table space
-        $graph_table = getGraphTable($configs);
+        $graph_table = getArrayGraphTable($configs);
 
         // Get data resolution
-        $data_resolution = getDataResolution($configs);
+        $data_resolution = getArrayDataResolution($configs);
 
         // Get TABS
-        $tabs = getTabs($configs);
+        $tabs = getArrayTabs($configs);
 
         // Get PopUp
-        $popup = getPopup($configs);
+        $popup = getArrayPopup($configs);
     }
 }
 
@@ -54,11 +51,11 @@ $data = file_get_contents("http://evalua.fernandoyepesc.com/04_Modules/11_Evalua
 //  Decodificar la data que viene en formato json
 $json_data = json_decode($data, true);
 
-// Dar forma a los datos de acuerdo a la estructura de cada tipo de chart
-$series_pie_chart = pie_chart($json_data, 5);
-$series_bar_chart = bar_chart($json_data, 4);
-$series_horizontal_bar_chart = horizontal_bar_chart($json_data, 6);
-$array_lateralidad = bar_chart($json_data, 3);
+/* Dar forma a los datos de acuerdo a la estructura de cada tipo de chart
+$series_pie_chart = get_pie_chart_series($json_data, 5);
+$series_bar_chart = get_bar_chart_series($json_data, 4);
+$series_horizontal_bar_chart = get_horizontal_bar_chart_series($json_data, 6);
+$array_lateralidad = get_bar_chart_series($json_data, 3);
 
 // Obtener nombres completos de los jugadores
 $histogram_data = array();
@@ -80,4 +77,5 @@ foreach ($json_data as $jugador) {
 }
 
 // Formatear la data para el histograma
-$series_edades_jugadores = histogram($json_data, $histogram_data, $nombresJugadores);
+$series_edades_jugadores = get_histogram_series($json_data, $histogram_data, $nombresJugadores);
+*/

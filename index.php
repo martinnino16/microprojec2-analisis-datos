@@ -15,16 +15,22 @@
 </head>
 
 <body>
+
+    <!-- IMPORT SCRIPTS -->
+    <script type="text/javascript" src="./barChart.js"></script>
+    <script type="text/javascript" src="./pieChart.js"></script>
+
     <?php
     require_once('funciones.php');
     require_once('leerConfiguracion.php');
     require_once('validarArchivo.php');
+    require_once('cargarGraficas.php');
     ?>
 
     <div id="wrapper">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">MicroProject2</a>
+                <a class="navbar-brand" href="#">MicroProject2 G302-2</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -40,22 +46,31 @@
         <div class="d-flex align-items-start">
             <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <?php
-                $k = 0;
+                $indexTab = 0;
                 foreach ($tabs as $tab) {
-                    if ($k == 0) {
-                        echo '<button class="nav-link active" id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" aria-selected="true">' . $tab . '</button>';
+                    if ($indexTab == 0) {
+                        echo '<button class="nav-link active" 
+                        id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" 
+                        data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                        type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                        aria-selected="true">' . $tab . '</button>';
                     } else {
-                        echo '<button class="nav-link" id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" aria-selected="true">' . $tab . '</button>';
+                        echo '<button class="nav-link" 
+                        id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" 
+                        data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                        type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                        aria-selected="true">' . $tab . '</button>';
                     }
-                    $k++;
+                    $indexTab++;
                 }
                 ?>
             </div>
             <div class="tab-content" style="min-width: 1200px !important;" id="v-pills-tabContent">
                 <?php
-                $k = 0;
+                $indexTab = 0;
+                $contDiv = 1;
                 foreach ($tabs as $tab) {
-                    if ($k == 0) {
+                    if ($indexTab == 0) {
                         echo '<div class="tab-pane fade show active" 
                         id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
                         role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
@@ -68,76 +83,66 @@
                                 echo '<div class="row">';
                                 for ($j = 0; $j < $col; $j++) {
                                     echo '<div class="col-' . 12 / $col . '">
-                                                        <figure class="highcharts-figure">
-                                                            <div id="container' . $j . '"></div>
-                                                        </figure>
-
-                                                    </div>';
+                                            <figure class="highcharts-figure">
+                                                <div id="container' . $contDiv . '"></div>
+                                            </figure>
+                                        </div>';
+                                    echo load_chart(
+                                        getHowPlot($how_plot, $indexTab, $contDiv - 1),
+                                        "container$contDiv",
+                                        getGraphName($graph_names, $indexTab, $contDiv - 1),
+                                        get_chart_series(getHowPlot($how_plot, $indexTab, $contDiv - 1), $json_data, getWhatPlot($what_plot, $indexTab, $contDiv - 1))
+                                    );
+                                    $contDiv++;
                                 }
-
                                 echo '</div>';
                             }
+                            break;
                         }
-
                         echo '</div>';
                         echo '</div>';
                     } else {
                         echo '<div class="tab-pane fade" id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
                         role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
-                        Lógica Graficas Tab '.$tab.'
-                        </div>';
+                            <div class="container">';
+                        $gridCero = 0;
+                        $indexHowWhatPlot = 0;
+                        foreach ($grids as $grid) {
+                            if ($gridCero != 0) {
+                                $arrayGrid = explode('x', $grid);
+                                $row = $arrayGrid[0];
+                                $col = $arrayGrid[1];
+                                for ($i = 0; $i < $row; $i++) {
+                                    echo '<div class="row">';
+                                    for ($j = 0; $j < $col; $j++) {
+                                        echo '<div class="col-' . 12 / $col . '">
+                                                <figure class="highcharts-figure">
+                                                    <div id="container' . $contDiv . '"></div>
+                                                </figure>
+                                            </div>';
+                                        echo load_chart(
+                                            getHowPlot($how_plot, $indexTab, $indexHowWhatPlot),
+                                            "container$contDiv",
+                                            getGraphName($graph_names, $indexTab, $indexHowWhatPlot),
+                                            get_chart_series(getHowPlot($how_plot, $indexTab, $indexHowWhatPlot), $json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot))
+                                        );
+                                        $indexHowWhatPlot++;
+                                        $contDiv++;
+                                    }
+                                    echo '</div>';
+                                }
+                            }
+                            $gridCero++;
+                        }
+                        echo '</div>';
+                        echo '</div>';
                     }
-                    $k++;
+                    $indexTab++;
                 }
                 ?>
             </div>
         </div>
     </div>
-
-    <!-- IMPORT SCRIPTS -->
-    <script type="text/javascript" src="./barChart.js"></script>
-    <script type="text/javascript" src="./pieChart.js"></script>
-
-    <!-- GRÁFICA TORTA -->
-    <script type="text/javascript">
-        loadPieChart('container1', 'Gráfica de Torta', <?php echo $series_pie_chart ?>);
-    </script>
-    <script src="./pieChart.js"></script>
-
-
-    <!-- GRÁFICA BARRAS -->
-    <script type="text/javascript">
-        loadBarChart('container0', 'Gráfica de Barras', <?php echo $series_bar_chart ?>);
-    </script>
-
-    <!-- GRÁFICA BARRAS HORIZONTAL -->
-    <script type="text/javascript">
-        const seriesHorizontalBar = JSON.parse('<?php echo $series_horizontal_bar_chart ?>');
-    </script>
-
-
-    <!-- GRÁFICA BARRAS -->
-    <script type="text/javascript">
-        const lateralidad = JSON.parse('<?php echo $array_lateralidad  ?>');
-    </script>
-
-
-    <!-- HISTOGRAMA -->
-    <script type="text/javascript">
-        const edadesJugadores = <?php echo $series_edades_jugadores ?>;
-    </script>
-
-
-    <!-- PRUEBAS -->
-    <!-- <script type="text/javascript">
-        //var obj = JSON.stringify(<php echo $data ?>);
-        var obj2 = <php echo json_encode($graph_names) ?>
-    </script> -->
-
-    <!-- <script type="module" src="graficos.js">
-
-    </script> -->
-    <!-- <script src="./graficos.js"></script> -->
 </body>
 
 </html>

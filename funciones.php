@@ -1,6 +1,23 @@
 <?php
-## Algoritmo para obtener grado de escolaridad de los jugadores
-function pie_chart($json_data, $index)
+## 
+function get_chart_series($howPlot, $json_data, $whatPlot)
+{
+    switch ($howPlot) {
+        case 1:
+            return get_pie_chart_series($json_data, $whatPlot);
+            break;
+        case 2:
+            return get_bar_chart_series($json_data, $whatPlot);
+            break;
+        case 3:
+            return get_horizontal_bar_chart_series($json_data, $whatPlot);
+            break;
+        default:
+    }
+}
+
+## Algoritmo para formatear los datos para la gráfica torta
+function get_pie_chart_series($json_data, $index)
 {
     $data = array();
     foreach ($json_data as $jugador) {
@@ -22,8 +39,8 @@ function pie_chart($json_data, $index)
     return $series = json_encode($series);
 }
 
-## Construir algoritmo para la gráfica de posiciones de juego
-function bar_chart($json_data, $index)
+## Algoritmo para formatear los datos para la gráfica de barras
+function get_bar_chart_series($json_data, $index)
 {
     $data = array();
     $totalJugadores = 0;
@@ -48,8 +65,8 @@ function bar_chart($json_data, $index)
     return $series = json_encode($series);
 }
 
-// Grafica de las razas
-function horizontal_bar_chart($json_data, $index)
+## Algoritmo para formatear los datos para la gráfica de barras horizontal
+function get_horizontal_bar_chart_series($json_data, $index)
 {
     $data = array();
     $totalJugadores = 0;
@@ -75,8 +92,8 @@ function horizontal_bar_chart($json_data, $index)
     return $series = json_encode($series);
 }
 
-// Histograma Edades
-function histogram($json_data, $data, $titles)
+## Algoritmo para formatear los datos para la gráfica de histograma
+function get_histogram_series($json_data, $data, $titles)
 {
     $array_edades_jugadores[0][] = 'Nombre';
     $array_edades_jugadores[0][] = 'Edad';
@@ -89,7 +106,7 @@ function histogram($json_data, $data, $titles)
     return $array_edades_jugadores = json_encode($array_edades_jugadores);
 }
 
-
+## Método que lee el archivo de configuración desde la raiz del proyecto
 function readFromCsvFile($afile)
 {
     $row = 0;
@@ -105,4 +122,28 @@ function readFromCsvFile($afile)
     }
     //print_r($mmat);
     return $mmat;
+}
+
+## Obtener el tipo de gráfica que se va a utilizar
+function getWhatPlot($arrayWhatPlot, $numConfig, $index)
+{
+    return $arrayWhatPlot[$numConfig][$index];
+}
+
+## Obtener el tipo de gráfica que se va a utilizar
+function getHowPlot($arrayHowPlot, $numConfig, $index)
+{
+    return $arrayHowPlot[$numConfig][$index];
+}
+
+## Obtener el tipo de gráfica que se va a utilizar
+function getGraphName($arrayGraphNames, $numConfig, $index)
+{
+    try {
+        $graphName = $arrayGraphNames[$numConfig][$index];
+        return $graphName;
+    } catch (Exception $e) {
+        print_r($arrayGraphNames);
+        return "Gráfica Generica";
+    }
 }
