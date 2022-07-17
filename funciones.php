@@ -179,3 +179,29 @@ function getTableSpace($arrayGraphTable, $index, $subIndex)
         return 0;
     }
 }
+
+## Obtener la información para la tabla de una gráfica específica
+function getDataTable($json_data, $index)
+{
+    try {
+        $data = array();
+        foreach ($json_data as $jugador) {
+            if (!empty($jugador['valores'][$index]['value'])) {
+                array_push($data, rtrim(strtoupper($jugador['valores'][$index]['value'])));
+            }
+        }
+
+        $data = array_count_values($data);
+
+        $dataTable = array();
+        $cont = 0;
+        foreach ($data as $key => $value) {
+            $dataTable[$cont]['title'] = $key;
+            $dataTable[$cont]['value'] = $value;
+            $cont++;
+        }
+        return $dataTable;
+    } catch (Exception $e) {
+        return null;
+    }
+}
