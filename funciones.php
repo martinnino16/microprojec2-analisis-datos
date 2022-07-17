@@ -157,3 +157,25 @@ function getRoundedCorners($arrayRoundedCornerns, $index, $subIndex)
         return "border-radius: 1em";
     }
 }
+
+## Obtener el redondeo de las esquinar para las gráficas
+function getGraphSpace($arrayGraphTable, $index, $subIndex)
+{
+    try {
+        $graphSpace = $arrayGraphTable[$index][$subIndex];
+        return $graphSpace;
+    } catch (Exception $e) {
+        return 12;
+    }
+}
+
+## Obtener el redondeo de las esquinar para las gráficas
+function getTableSpace($arrayGraphTable, $index, $subIndex)
+{
+    try {
+        $tableSpace = 12 - getGraphSpace($arrayGraphTable, $index, $subIndex);
+        return $tableSpace;
+    } catch (Exception $e) {
+        return 0;
+    }
+}

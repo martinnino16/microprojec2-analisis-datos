@@ -28,7 +28,7 @@
     ?>
 
     <div id="wrapper">
-        <div class="container">
+        <div class="container" style="margin-top:10px;">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="#">MicroProject2 G302-2</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,30 +42,33 @@
                 </div>
             </nav>
         </div>
-        <br><br>
-        <div class="d-flex align-items-start">
-            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <?php
-                $indexTab = 0;
-                foreach ($tabs as $tab) {
-                    if ($indexTab == 0) {
-                        echo '<button class="nav-link active" 
-                        id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" 
-                        data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
-                        type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
-                        aria-selected="true">' . $tab . '</button>';
-                    } else {
-                        echo '<button class="nav-link" 
-                        id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" 
-                        data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
-                        type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
-                        aria-selected="true">' . $tab . '</button>';
+        <div>
+            <nav>
+                <div class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <?php
+                    $indexTab = 0;
+                    foreach ($tabs as $tab) {
+                        if ($indexTab == 0) {
+                            // TITULO TAB ACTIVO
+                            echo '<button class="nav-link active" 
+                            id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" 
+                            data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                            type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                            aria-selected="true">' . $tab . '</button>';
+                        } else {
+                            // TITULOS TABS NO ACTIVOS
+                            echo '<button class="nav-link" 
+                            id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" 
+                            data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                            type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                            aria-selected="false">' . $tab . '</button>';
+                        }
+                        $indexTab++;
                     }
-                    $indexTab++;
-                }
-                ?>
-            </div>
-            <div class="tab-content" style="min-width: 1200px !important;" id="v-pills-tabContent">
+                    ?>
+                </div>
+            </nav>
+            <div class="tab-content container-graficas" id="v-pills-tabContent">
                 <?php
                 $indexTab = 0;
                 $contDiv = 1;
@@ -84,10 +87,47 @@
                                 echo '<div class="row">';
                                 for ($j = 0; $j < $col; $j++) {
                                     echo '<div class="col-' . 12 / $col . '">
-                                            <figure class="highcharts-figure">
-                                                <div class="divBorder" style="' . getRoundedCorners($rounded_corners, $indexTab, $indexHowWhatPlot) . '" id="container' . $contDiv . '"></div>
-                                            </figure>
-                                        </div>';
+                                            <div class="row div-border" style="' . getRoundedCorners($rounded_corners, $indexTab, $indexHowWhatPlot) . '">';
+                                    if (getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) == 0) {
+                                        echo '<div class="col-12">
+                                                <figure class="highcharts-figure">
+                                                    <div id="container' . $contDiv . '"></div>
+                                                </figure>
+                                            </div>';
+                                    } else {
+                                        echo '<div class="col-' . getGraphSpace($graph_table, $indexTab, $indexHowWhatPlot) . ' horizontal-scroll">
+                                                <figure class="highcharts-figure">
+                                                    <div id="container' . $contDiv . '"></div>
+                                                </figure>
+                                            </div>
+                                            <div class="col-' . getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) . '">
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm">
+                                                        <thead class="thead-dark">
+                                                            <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">First</th>
+                                                            <th scope="col">Last</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                            <th scope="row">1</th>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">2</th>
+                                                            <td>Jacob</td>
+                                                            <td>Thornton</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>';
+                                    }
+                                    echo '</div>
+                                    </div>';
                                     echo load_chart(
                                         getHowPlot($how_plot, $indexTab, $indexHowWhatPlot),
                                         "container$contDiv",
@@ -118,10 +158,47 @@
                                     echo '<div class="row">';
                                     for ($j = 0; $j < $col; $j++) {
                                         echo '<div class="col-' . 12 / $col . '">
+                                            <div class="row div-border" style="' . getRoundedCorners($rounded_corners, $indexTab, $indexHowWhatPlot) . '">';
+                                        if (getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) == 0) {
+                                            echo '<div class="col-12">
                                                 <figure class="highcharts-figure">
-                                                    <div class="divBorder" id="container' . $contDiv . '"></div>
+                                                    <div id="container' . $contDiv . '"></div>
                                                 </figure>
                                             </div>';
+                                        } else {
+                                            echo '<div class="col-' . getGraphSpace($graph_table, $indexTab, $indexHowWhatPlot) . ' horizontal-scroll">
+                                                <figure class="highcharts-figure">
+                                                    <div id="container' . $contDiv . '"></div>
+                                                </figure>
+                                            </div>
+                                            <div class="col-' . getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) . '">
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm">
+                                                        <thead class="thead-dark">
+                                                            <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">First</th>
+                                                            <th scope="col">Last</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                            <th scope="row">1</th>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">2</th>
+                                                            <td>Jacob</td>
+                                                            <td>Thornton</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>';
+                                        }
+                                    echo '</div>
+                                    </div>';
                                         echo load_chart(
                                             getHowPlot($how_plot, $indexTab, $indexHowWhatPlot),
                                             "container$contDiv",
