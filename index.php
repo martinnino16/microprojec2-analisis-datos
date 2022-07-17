@@ -106,22 +106,22 @@
                                                         <thead class="thead-dark">
                                                             <tr>
                                                             <th scope="col">#</th>
-                                                            <th scope="col">First</th>
-                                                            <th scope="col">Last</th>
+                                                            <th scope="col">Title</th>
+                                                            <th scope="col">Value</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody>';
+                                                        $numRow = 1;
+                                                        foreach (getDataTable($json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot)) as $data) {
+                                                            echo '
                                                             <tr>
-                                                            <th scope="row">1</th>
-                                                            <td>Mark</td>
-                                                            <td>Otto</td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">2</th>
-                                                            <td>Jacob</td>
-                                                            <td>Thornton</td>
-                                                            </tr>
-                                                        </tbody>
+                                                            <th scope="row">' . $numRow . '</th>
+                                                            <td>' . $data['title'] . '</td>
+                                                            <td>' . $data['value'] . '</td>
+                                                            </tr>';
+                                                            $numRow++;
+                                                        }
+                                                    echo '</tbody>
                                                     </table>
                                                 </div>
                                             </div>';
@@ -177,27 +177,27 @@
                                                         <thead class="thead-dark">
                                                             <tr>
                                                             <th scope="col">#</th>
-                                                            <th scope="col">First</th>
-                                                            <th scope="col">Last</th>
+                                                            <th scope="col">Title</th>
+                                                            <th scope="col">Value</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody>';
+                                                        $numRow = 1;
+                                                        foreach (getDataTable($json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot)) as $data) {
+                                                            echo '
                                                             <tr>
-                                                            <th scope="row">1</th>
-                                                            <td>Mark</td>
-                                                            <td>Otto</td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">2</th>
-                                                            <td>Jacob</td>
-                                                            <td>Thornton</td>
-                                                            </tr>
-                                                        </tbody>
+                                                            <th scope="row">' . $numRow . '</th>
+                                                            <td>' . $data['title'] . '</td>
+                                                            <td>' . $data['value'] . '</td>
+                                                            </tr>';
+                                                            $numRow++;
+                                                        }
+                                                    echo '</tbody>
                                                     </table>
                                                 </div>
                                             </div>';
                                         }
-                                    echo '</div>
+                                        echo '</div>
                                     </div>';
                                         echo load_chart(
                                             getHowPlot($how_plot, $indexTab, $indexHowWhatPlot),
