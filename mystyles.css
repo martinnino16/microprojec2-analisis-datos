@@ -43,7 +43,7 @@
 }
 
 .button {
-    background-color: #4CAF50; /* Green */
+    background-color: #0d6efd; /* Green */
     border: none;
     color: white;
     padding: 15px 32px;
@@ -63,4 +63,10 @@
     display: flex;
     justify-content: center;
     margin: 5px;
+}
+
+.divBorder {
+    border-style: double;
+    border-color: #0d6efd;
+    border-width: 2px;
 }

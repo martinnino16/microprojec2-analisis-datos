@@ -143,7 +143,17 @@ function getGraphName($arrayGraphNames, $numConfig, $index)
         $graphName = $arrayGraphNames[$numConfig][$index];
         return $graphName;
     } catch (Exception $e) {
-        print_r($arrayGraphNames);
-        return "Gráfica Generica";
+        return "Gráfica";
+    }
+}
+
+## Obtener el redondeo de las esquinar para las gráficas
+function getRoundedCorners($arrayRoundedCornerns, $index, $subIndex)
+{
+    try {
+        $rounded = $arrayRoundedCornerns[$index][$subIndex];
+        return "border-radius: " . $rounded . "em;";
+    } catch (Exception $e) {
+        return "border-radius: 1em";
     }
 }
