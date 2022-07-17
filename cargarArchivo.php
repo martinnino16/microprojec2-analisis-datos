@@ -23,7 +23,7 @@
                 </button>
             </nav>
         </div>
-        <div class="container my-5">
+        <div class="container my-5 container-upload-file">
             <div class="col-12">
                 <form action="uploadFile.php" method="POST" enctype="multipart/form-data">
                     <div>
