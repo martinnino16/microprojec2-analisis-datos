@@ -75,6 +75,7 @@
                         id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
                         role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
                             <div class="container">';
+                        $indexHowWhatPlot = 0;
                         foreach ($grids as $grid) {
                             $arrayGrid = explode('x', $grid);
                             $row = $arrayGrid[0];
@@ -84,15 +85,16 @@
                                 for ($j = 0; $j < $col; $j++) {
                                     echo '<div class="col-' . 12 / $col . '">
                                             <figure class="highcharts-figure">
-                                                <div id="container' . $contDiv . '"></div>
+                                                <div class="divBorder" style="' . getRoundedCorners($rounded_corners, $indexTab, $indexHowWhatPlot) . '" id="container' . $contDiv . '"></div>
                                             </figure>
                                         </div>';
                                     echo load_chart(
-                                        getHowPlot($how_plot, $indexTab, $contDiv - 1),
+                                        getHowPlot($how_plot, $indexTab, $indexHowWhatPlot),
                                         "container$contDiv",
-                                        getGraphName($graph_names, $indexTab, $contDiv - 1),
-                                        get_chart_series(getHowPlot($how_plot, $indexTab, $contDiv - 1), $json_data, getWhatPlot($what_plot, $indexTab, $contDiv - 1))
+                                        getGraphName($graph_names, $indexTab, $indexHowWhatPlot),
+                                        get_chart_series(getHowPlot($how_plot, $indexTab, $indexHowWhatPlot), $json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot))
                                     );
+                                    $indexHowWhatPlot++;
                                     $contDiv++;
                                 }
                                 echo '</div>';
@@ -117,7 +119,7 @@
                                     for ($j = 0; $j < $col; $j++) {
                                         echo '<div class="col-' . 12 / $col . '">
                                                 <figure class="highcharts-figure">
-                                                    <div id="container' . $contDiv . '"></div>
+                                                    <div class="divBorder" id="container' . $contDiv . '"></div>
                                                 </figure>
                                             </div>';
                                         echo load_chart(
