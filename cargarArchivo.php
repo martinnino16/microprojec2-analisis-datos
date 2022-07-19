@@ -15,12 +15,17 @@
 
 <body>
     <div id="wrapper">
-        <div class="container">
+        <div class="container" style="margin-top:10px;">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="index.php">MicroProject2 G302-2</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.php">Ver Gráficas</a></li>
+                    </ul>
+                </div>
             </nav>
         </div>
         <div class="container my-5 container-upload-file">
@@ -33,7 +38,7 @@
                         </div>
                     </div>
                     <div class="div-btn-upl">
-                        <button class="button" >Cargar</button>
+                        <button class="button">Cargar</button>
                     </div>
                 </form>
             </div>

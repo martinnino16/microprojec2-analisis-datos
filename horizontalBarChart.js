@@ -1,6 +1,6 @@
 
 // Horizontal Bar Chart
-function loadHorizontalBarChart(idContainer, title, series) {
+function loadHorizontalBarChart(idContainer, title, series, resolution) {
     Highcharts.chart(idContainer, {
         chart: {
             type: 'bar'
@@ -15,13 +15,13 @@ function loadHorizontalBarChart(idContainer, title, series) {
         },
         tooltip: {
             headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.' + resolution + 'f}%</b> of total<br/>'
         },
         plotOptions: {
             bar: {
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.y:.2f} %'
+                    format: '<b>{point.name}</b>: {point.y:.' + resolution + 'f} %'
                 },
             }
         },

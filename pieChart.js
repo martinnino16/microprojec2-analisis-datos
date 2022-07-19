@@ -1,5 +1,5 @@
 // Pie Chart
-function loadPieChart(idContainer, title, series) {
+function loadPieChart(idContainer, title, series, resolution) {
     Highcharts.chart(idContainer, {
         chart: {
             plotBackgroundColor: null,
@@ -11,7 +11,7 @@ function loadPieChart(idContainer, title, series) {
             text: title
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '{series.name}: <b>{point.percentage:.' + resolution + 'f}%</b>'
         },
         accessibility: {
             point: {
@@ -24,7 +24,7 @@ function loadPieChart(idContainer, title, series) {
                 cursor: 'pointer',
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    format: '<b>{point.name}</b>: {point.percentage:.' + resolution + 'f} %'
                 },
                 showInLegend: true
             }

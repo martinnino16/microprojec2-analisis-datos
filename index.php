@@ -50,18 +50,34 @@
                     foreach ($tabs as $tab) {
                         if ($indexTab == 0) {
                             // TITULO TAB ACTIVO
-                            echo '<button class="nav-link active" 
-                            id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" 
-                            data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
-                            type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
-                            aria-selected="true">' . $tab . '</button>';
+                            if ($popup[$indexTab] == 0) {
+                                echo '<button class="nav-link active" 
+                                id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" 
+                                data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                                type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                                aria-selected="true">' . $tab . '</button>';
+                            } else {
+                                echo '<button class="nav-link" 
+                                id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tabb" 
+                                data-bs-toggle="modal" data-bs-target="#modal'. str_replace(" ", "-", trim($tab)). '">'
+                                    . $tab .
+                                '</button>';
+                            }
                         } else {
                             // TITULOS TABS NO ACTIVOS
-                            echo '<button class="nav-link" 
-                            id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" 
-                            data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
-                            type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
-                            aria-selected="false">' . $tab . '</button>';
+                            if ($popup[$indexTab] == 0) {
+                                echo '<button class="nav-link" 
+                                id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab" 
+                                data-bs-toggle="pill" data-bs-target="#v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                                type="button" role="tab" aria-controls="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                                aria-selected="false">' . $tab . '</button>';
+                            } else {
+                                echo '<button class="nav-link" 
+                                id="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tabb" 
+                                data-bs-toggle="modal" data-bs-target="#modal'. str_replace(" ", "-", trim($tab)). '">'
+                                    . $tab .
+                                '</button>';
+                            }
                         }
                         $indexTab++;
                     }
@@ -74,83 +90,13 @@
                 $contDiv = 1;
                 foreach ($tabs as $tab) {
                     if ($indexTab == 0) {
-                        echo '<div class="tab-pane fade show active" 
-                        id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
-                        role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
-                            <div class="container">';
-                        $indexHowWhatPlot = 0;
-                        foreach ($grids as $grid) {
-                            $arrayGrid = explode('x', $grid);
-                            $row = $arrayGrid[0];
-                            $col = $arrayGrid[1];
-                            for ($i = 0; $i < $row; $i++) {
-                                echo '<div class="row">';
-                                for ($j = 0; $j < $col; $j++) {
-                                    echo '<div class="col-' . 12 / $col . '">
-                                            <div class="row div-border" style="' . getRoundedCorners($rounded_corners, $indexTab, $indexHowWhatPlot) . '">';
-                                    if (getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) == 0) {
-                                        echo '<div class="col-12">
-                                                <figure class="highcharts-figure">
-                                                    <div id="container' . $contDiv . '"></div>
-                                                </figure>
-                                            </div>';
-                                    } else {
-                                        echo '<div class="col-' . getGraphSpace($graph_table, $indexTab, $indexHowWhatPlot) . ' horizontal-scroll">
-                                                <figure class="highcharts-figure">
-                                                    <div id="container' . $contDiv . '"></div>
-                                                </figure>
-                                            </div>
-                                            <div class="col-' . getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) . '">
-                                                <div class="table-responsive">
-                                                    <table class="table table-sm">
-                                                        <thead class="thead-dark">
-                                                            <tr>
-                                                            <th scope="col">#</th>
-                                                            <th scope="col">Title</th>
-                                                            <th scope="col">Value</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>';
-                                                        $numRow = 1;
-                                                        foreach (getDataTable($json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot)) as $data) {
-                                                            echo '
-                                                            <tr>
-                                                            <th scope="row">' . $numRow . '</th>
-                                                            <td>' . $data['title'] . '</td>
-                                                            <td>' . $data['value'] . '</td>
-                                                            </tr>';
-                                                            $numRow++;
-                                                        }
-                                                    echo '</tbody>
-                                                    </table>
-                                                </div>
-                                            </div>';
-                                    }
-                                    echo '</div>
-                                    </div>';
-                                    echo load_chart(
-                                        getHowPlot($how_plot, $indexTab, $indexHowWhatPlot),
-                                        "container$contDiv",
-                                        getGraphName($graph_names, $indexTab, $indexHowWhatPlot),
-                                        get_chart_series(getHowPlot($how_plot, $indexTab, $indexHowWhatPlot), $json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot))
-                                    );
-                                    $indexHowWhatPlot++;
-                                    $contDiv++;
-                                }
-                                echo '</div>';
-                            }
-                            break;
-                        }
-                        echo '</div>';
-                        echo '</div>';
-                    } else {
-                        echo '<div class="tab-pane fade" id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
-                        role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
-                            <div class="container">';
-                        $gridCero = 0;
-                        $indexHowWhatPlot = 0;
-                        foreach ($grids as $grid) {
-                            if ($gridCero != 0) {
+                        if ($popup[$indexTab] == 0) {
+                            echo '<div class="tab-pane fade show active" 
+                            id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                            role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
+                                <div class="container">';
+                            $indexHowWhatPlot = 0;
+                            foreach ($grids as $grid) {
                                 $arrayGrid = explode('x', $grid);
                                 $row = $arrayGrid[0];
                                 $col = $arrayGrid[1];
@@ -158,63 +104,316 @@
                                     echo '<div class="row">';
                                     for ($j = 0; $j < $col; $j++) {
                                         echo '<div class="col-' . 12 / $col . '">
-                                            <div class="row div-border" style="' . getRoundedCorners($rounded_corners, $indexTab, $indexHowWhatPlot) . '">';
+                                                <div class="row div-border" style="' . getRoundedCorners($rounded_corners, $indexTab, $indexHowWhatPlot) . '">';
                                         if (getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) == 0) {
                                             echo '<div class="col-12">
-                                                <figure class="highcharts-figure">
-                                                    <div id="container' . $contDiv . '"></div>
-                                                </figure>
-                                            </div>';
+                                                    <figure class="highcharts-figure">
+                                                        <div id="container' . $contDiv . '"></div>
+                                                    </figure>
+                                                </div>';
                                         } else {
                                             echo '<div class="col-' . getGraphSpace($graph_table, $indexTab, $indexHowWhatPlot) . ' horizontal-scroll">
-                                                <figure class="highcharts-figure">
-                                                    <div id="container' . $contDiv . '"></div>
-                                                </figure>
-                                            </div>
-                                            <div class="col-' . getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) . '">
-                                                <div class="table-responsive">
-                                                    <table class="table table-sm">
-                                                        <thead class="thead-dark">
-                                                            <tr>
-                                                            <th scope="col">#</th>
-                                                            <th scope="col">Title</th>
-                                                            <th scope="col">Value</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>';
-                                                        $numRow = 1;
-                                                        foreach (getDataTable($json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot)) as $data) {
-                                                            echo '
-                                                            <tr>
-                                                            <th scope="row">' . $numRow . '</th>
-                                                            <td>' . $data['title'] . '</td>
-                                                            <td>' . $data['value'] . '</td>
-                                                            </tr>';
-                                                            $numRow++;
-                                                        }
-                                                    echo '</tbody>
-                                                    </table>
+                                                    <figure class="highcharts-figure">
+                                                        <div id="container' . $contDiv . '"></div>
+                                                    </figure>
                                                 </div>
-                                            </div>';
+                                                <div class="col-' . getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) . '">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-sm">
+                                                            <thead class="thead-dark">
+                                                                <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">Title</th>
+                                                                <th scope="col">Value</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>';
+                                            $numRow = 1;
+                                            foreach (getDataTable($json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot)) as $data) {
+                                                echo '
+                                                                <tr>
+                                                                <th scope="row">' . $numRow . '</th>
+                                                                <td>' . $data['title'] . '</td>
+                                                                <td>' . $data['value'] . '</td>
+                                                                </tr>';
+                                                $numRow++;
+                                            }
+                                            echo '</tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>';
                                         }
                                         echo '</div>
-                                    </div>';
+                                        </div>';
                                         echo load_chart(
                                             getHowPlot($how_plot, $indexTab, $indexHowWhatPlot),
                                             "container$contDiv",
                                             getGraphName($graph_names, $indexTab, $indexHowWhatPlot),
-                                            get_chart_series(getHowPlot($how_plot, $indexTab, $indexHowWhatPlot), $json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot))
+                                            get_chart_series(getHowPlot($how_plot, $indexTab, $indexHowWhatPlot), $json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot)),
+                                            getResolution($data_resolution, $indexTab, $indexHowWhatPlot)
                                         );
                                         $indexHowWhatPlot++;
                                         $contDiv++;
                                     }
                                     echo '</div>';
                                 }
+                                break;
                             }
-                            $gridCero++;
+                            echo '</div>';
+                            echo '</div>';
+                        } else {
+                            echo '<div class="modal fade" id="modal'. str_replace(" ", "-", trim($tab)) .'" tabindex="-1" aria-labelledby="modalLabel'. str_replace(" ", "-", trim($tab)) .'" aria-hidden="true">
+                                <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalLabel'. str_replace(" ", "-", trim($tab)) .'">'. $tab .'</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">';
+                                            echo '<div class="tab-pane fade show active" 
+                                            id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                                            role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
+                                                <div class="container">';
+                                            $indexHowWhatPlot = 0;
+                                            foreach ($grids as $grid) {
+                                                $arrayGrid = explode('x', $grid);
+                                                $row = $arrayGrid[0];
+                                                $col = $arrayGrid[1];
+                                                for ($i = 0; $i < $row; $i++) {
+                                                    echo '<div class="row">';
+                                                    for ($j = 0; $j < $col; $j++) {
+                                                        echo '<div class="col-' . 12 / $col . '">
+                                                                <div class="row div-border" style="' . getRoundedCorners($rounded_corners, $indexTab, $indexHowWhatPlot) . '">';
+                                                        if (getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) == 0) {
+                                                            echo '<div class="col-12">
+                                                                    <figure class="highcharts-figure">
+                                                                        <div id="container' . $contDiv . '"></div>
+                                                                    </figure>
+                                                                </div>';
+                                                        } else {
+                                                            echo '<div class="col-' . getGraphSpace($graph_table, $indexTab, $indexHowWhatPlot) . ' horizontal-scroll">
+                                                                    <figure class="highcharts-figure">
+                                                                        <div id="container' . $contDiv . '"></div>
+                                                                    </figure>
+                                                                </div>
+                                                                <div class="col-' . getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) . '">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-sm">
+                                                                            <thead class="thead-dark">
+                                                                                <tr>
+                                                                                <th scope="col">#</th>
+                                                                                <th scope="col">Title</th>
+                                                                                <th scope="col">Value</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>';
+                                                            $numRow = 1;
+                                                            foreach (getDataTable($json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot)) as $data) {
+                                                                echo '
+                                                                                <tr>
+                                                                                <th scope="row">' . $numRow . '</th>
+                                                                                <td>' . $data['title'] . '</td>
+                                                                                <td>' . $data['value'] . '</td>
+                                                                                </tr>';
+                                                                $numRow++;
+                                                            }
+                                                            echo '</tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>';
+                                                        }
+                                                        echo '</div>
+                                                        </div>';
+                                                        echo load_chart(
+                                                            getHowPlot($how_plot, $indexTab, $indexHowWhatPlot),
+                                                            "container$contDiv",
+                                                            getGraphName($graph_names, $indexTab, $indexHowWhatPlot),
+                                                            get_chart_series(getHowPlot($how_plot, $indexTab, $indexHowWhatPlot), $json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot)),
+                                                            getResolution($data_resolution, $indexTab, $indexHowWhatPlot)
+                                                        );
+                                                        $indexHowWhatPlot++;
+                                                        $contDiv++;
+                                                    }
+                                                    echo '</div>';
+                                                }
+                                                break;
+                                            }
+                                            echo '</div>';
+                                            echo '</div>';
+                                        echo '</div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
                         }
-                        echo '</div>';
-                        echo '</div>';
+                    } else {
+                        if ($popup[$indexTab] == 0) {
+                            echo '<div class="tab-pane fade" id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                            role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
+                                <div class="container">';
+                                $gridCero = 0;
+                                $indexHowWhatPlot = 0;
+                                foreach ($grids as $grid) {
+                                    if ($gridCero != 0) {
+                                        $arrayGrid = explode('x', $grid);
+                                        $row = $arrayGrid[0];
+                                        $col = $arrayGrid[1];
+                                        for ($i = 0; $i < $row; $i++) {
+                                            echo '<div class="row">';
+                                            for ($j = 0; $j < $col; $j++) {
+                                                echo '<div class="col-' . 12 / $col . '">
+                                                    <div class="row div-border" style="' . getRoundedCorners($rounded_corners, $indexTab, $indexHowWhatPlot) . '">';
+                                                if (getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) == 0) {
+                                                    echo '<div class="col-12">
+                                                        <figure class="highcharts-figure">
+                                                            <div id="container' . $contDiv . '"></div>
+                                                        </figure>
+                                                    </div>';
+                                                } else {
+                                                    echo '<div class="col-' . getGraphSpace($graph_table, $indexTab, $indexHowWhatPlot) . ' horizontal-scroll">
+                                                        <figure class="highcharts-figure">
+                                                            <div id="container' . $contDiv . '"></div>
+                                                        </figure>
+                                                    </div>
+                                                    <div class="col-' . getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) . '">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-sm">
+                                                                <thead class="thead-dark">
+                                                                    <tr>
+                                                                    <th scope="col">#</th>
+                                                                    <th scope="col">Title</th>
+                                                                    <th scope="col">Value</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>';
+                                                    $numRow = 1;
+                                                    foreach (getDataTable($json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot)) as $data) {
+                                                        echo '
+                                                                    <tr>
+                                                                    <th scope="row">' . $numRow . '</th>
+                                                                    <td>' . $data['title'] . '</td>
+                                                                    <td>' . $data['value'] . '</td>
+                                                                    </tr>';
+                                                        $numRow++;
+                                                    }
+                                                    echo '</tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>';
+                                                }
+                                                echo '</div>
+                                                    </div>';
+                                                echo load_chart(
+                                                    getHowPlot($how_plot, $indexTab, $indexHowWhatPlot),
+                                                    "container$contDiv",
+                                                    getGraphName($graph_names, $indexTab, $indexHowWhatPlot),
+                                                    get_chart_series(getHowPlot($how_plot, $indexTab, $indexHowWhatPlot), $json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot)),
+                                                    getResolution($data_resolution, $indexTab, $indexHowWhatPlot)
+                                                );
+                                                $indexHowWhatPlot++;
+                                                $contDiv++;
+                                            }
+                                            echo '</div>';
+                                        }
+                                    } else {
+                                        print_r($grid);
+                                    }
+                                    $gridCero++;
+                                }
+                                echo '</div>';
+                            echo '</div>';
+                        } else {
+                            echo '<div class="modal fade" id="modal'. str_replace(" ", "-", trim($tab)) .'" tabindex="-1" aria-labelledby="modalLabel'. str_replace(" ", "-", trim($tab)) .'" aria-hidden="true">
+                                <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalLabel'. str_replace(" ", "-", trim($tab)) .'">'. $tab .'</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">';
+                                            echo '<div class="tab-pane fade show" 
+                                            id="v-pills-' . str_replace(" ", "-", trim($tab)) . '" 
+                                            role="tabpanel" aria-labelledby="v-pills-' . str_replace(" ", "-", trim($tab)) . '-tab">
+                                                <div class="container">';
+                                                $gridCero = 0;
+                                                $indexHowWhatPlot = 0;
+                                                foreach ($grids as $grid) {
+                                                    if ($gridCero != 0) {
+                                                        $arrayGrid = explode('x', $grid);
+                                                        $row = $arrayGrid[0];
+                                                        $col = $arrayGrid[1];
+                                                        for ($i = 0; $i < $row; $i++) {
+                                                            echo '<div class="row">';
+                                                            for ($j = 0; $j < $col; $j++) {
+                                                                echo '<div class="col-' . 12 / $col . '">
+                                                                        <div class="row div-border" style="' . getRoundedCorners($rounded_corners, $indexTab, $indexHowWhatPlot) . '">';
+                                                                if (getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) == 0) {
+                                                                    echo '<div class="col-12">
+                                                                            <figure class="highcharts-figure">
+                                                                                <div id="container' . $contDiv . '"></div>
+                                                                            </figure>
+                                                                        </div>';
+                                                                } else {
+                                                                    echo '<div class="col-' . getGraphSpace($graph_table, $indexTab, $indexHowWhatPlot) . ' horizontal-scroll">
+                                                                            <figure class="highcharts-figure">
+                                                                                <div id="container' . $contDiv . '"></div>
+                                                                            </figure>
+                                                                        </div>
+                                                                        <div class="col-' . getTableSpace($graph_table, $indexTab, $indexHowWhatPlot) . '">
+                                                                            <div class="table-responsive">
+                                                                                <table class="table table-sm">
+                                                                                    <thead class="thead-dark">
+                                                                                        <tr>
+                                                                                        <th scope="col">#</th>
+                                                                                        <th scope="col">Title</th>
+                                                                                        <th scope="col">Value</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>';
+                                                                    $numRow = 1;
+                                                                    foreach (getDataTable($json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot)) as $data) {
+                                                                        echo '
+                                                                                        <tr>
+                                                                                        <th scope="row">' . $numRow . '</th>
+                                                                                        <td>' . $data['title'] . '</td>
+                                                                                        <td>' . $data['value'] . '</td>
+                                                                                        </tr>';
+                                                                        $numRow++;
+                                                                    }
+                                                                    echo '</tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>';
+                                                                }
+                                                                echo '</div>
+                                                                </div>';
+                                                                echo load_chart(
+                                                                    getHowPlot($how_plot, $indexTab, $indexHowWhatPlot),
+                                                                    "container$contDiv",
+                                                                    getGraphName($graph_names, $indexTab, $indexHowWhatPlot),
+                                                                    get_chart_series(getHowPlot($how_plot, $indexTab, $indexHowWhatPlot), $json_data, getWhatPlot($what_plot, $indexTab, $indexHowWhatPlot)),
+                                                                    getResolution($data_resolution, $indexTab, $indexHowWhatPlot)
+                                                                );
+                                                                $indexHowWhatPlot++;
+                                                                $contDiv++;
+                                                            }
+                                                            echo '</div>';
+                                                        }
+                                                    }
+                                                    $gridCero++;
+                                                }
+                                                echo '</div>';
+                                            echo '</div>';
+                                        echo '</div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
+                        }
                     }
                     $indexTab++;
                 }

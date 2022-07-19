@@ -205,3 +205,14 @@ function getDataTable($json_data, $index)
         return null;
     }
 }
+
+## Obtener la cantidad de decimales después del punto decimal
+function getResolution($arrayResolution, $index, $subIndex)
+{
+    try {
+        $resolution = $arrayResolution[$index][$subIndex];
+        return $resolution;
+    } catch (Exception $e) {
+        return 0;
+    }
+}
